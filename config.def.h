@@ -56,10 +56,10 @@ static const Layout layouts[] = {
 #define MODKEY Mod4Mask
 #define MOD2KEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ MOD2KEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
+	{ MOD2KEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
+	{ MOD2KEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ MOD2KEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -67,18 +67,17 @@ static const Layout layouts[] = {
 /* commands */
 /* system commands */
 #include <X11/XF86keysym.h>
-static const char *brupcmd[]  = { "/home/razobeckett/.suckless/dwm/scripts/brightnessnotifications.sh", "up", NULL };
-static const char *brdowncmd[]  = { "/home/razobeckett/.suckless/dwm/scripts/brightnessnotifications.sh", "down", NULL };
-static const char *upvol[]  = { "/home/razobeckett/.suckless/dwm/scripts/volumenotifications.sh", "up", NULL};
-static const char *downvol[]  =  { "/home/razobeckett/.suckless/dwm/scripts/volumenotifications.sh", "down", NULL};
-static const char *mutevol[]  = { "/home/razobeckett/.suckless/dwm/scripts/volumenotifications.sh", "mute", NULL};
+static const char *brupcmd[]  = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "up", NULL };
+static const char *brdowncmd[]  = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "down", NULL };
+static const char *upvol[]  = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "up", NULL};
+static const char *downvol[]  =  { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "down", NULL};
+static const char *mutevol[]  = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "mute", NULL};
 
 /* user commands*/
 //static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
 static const char *powermenu[] = { "rofi", "-show", "power-menu", "-modi", "power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
-static const char *termcmd[]  = { "bash", "/home/razobeckett/.suckless/dwm/trayer.sh", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        					function        argument */
@@ -131,7 +130,7 @@ static const Key keys[] = {
 	{ MODKEY,		                XK_w, 	   					spawn,          SHCMD("flatpak run io.github.mimbrero.WhatsAppDesktop") },
 	{ MODKEY,		                XK_Return, 					spawn,          SHCMD("kitty") }, /*{.v = termcmd } },*/
 	{ MODKEY,						XK_v,	   					spawn,	   	   	SHCMD("xfce4-popup-clipman") },
-	{ ControlMask|ShiftMask,		XK_q,	   					spawn,	   	   	SHCMD("bash $HOME/.suckless/dwm/trayer.sh") },
+	{ ControlMask|ShiftMask,		XK_q,	   					spawn,	   	   	SHCMD("/home/razobeckett/.config/suckless/dwm/scripts/trayer.sh") },
 	{ MODKEY|ShiftMask,				XK_s,	   					spawn,	   	   	{.v = flameshot } },
 };
 
