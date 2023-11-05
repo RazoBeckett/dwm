@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 6;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
@@ -11,10 +11,10 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-#define ICONSIZE 16   /* icon size */
-#define ICONSPACING 5 /* space between icon and title */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+#define ICONSIZE 18   /* icon size */
+#define ICONSPACING 8 /* space between icon and title */
+static const char *fonts[]          = { "JetBrains Mono Nerd Font:weight=bold:size=11:antialias=true:hinting=true" };
+static const char dmenufont[]       = "JetBrains Mono Nerd Font:weight=bold:size=11:antialias=true:hinting=true"; 
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -23,7 +23,7 @@ static const char col_cyan[]        = "#005577";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeSel]  = { col_gray4, col_gray1,  col_cyan  },
 };
 
 /* tagging */
@@ -53,7 +53,8 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
+#define MOD2KEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -64,47 +65,74 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+/* system commands */
+#include <X11/XF86keysym.h>
+static const char *brupcmd[]  = { "/home/razobeckett/.suckless/dwm/scripts/brightnessnotifications.sh", "up", NULL };
+static const char *brdowncmd[]  = { "/home/razobeckett/.suckless/dwm/scripts/brightnessnotifications.sh", "down", NULL };
+static const char *upvol[]  = { "/home/razobeckett/.suckless/dwm/scripts/volumenotifications.sh", "up", NULL};
+static const char *downvol[]  =  { "/home/razobeckett/.suckless/dwm/scripts/volumenotifications.sh", "down", NULL};
+static const char *mutevol[]  = { "/home/razobeckett/.suckless/dwm/scripts/volumenotifications.sh", "mute", NULL};
+
+/* user commands*/
+//static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
+static const char *powermenu[] = { "rofi", "-show", "power-menu", "-modi", "power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
+static const char *flameshot[]  = { "flameshot", "gui", NULL };
+static const char *termcmd[]  = { "bash", "/home/razobeckett/.suckless/dwm/trayer.sh", NULL };
 
 static const Key keys[] = {
-	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
+	/* modifier                     key        					function        argument */
+	{ MODKEY,                       XK_p,      					spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_b,      					togglebar,      {0} },
+	{ MOD2KEY|ShiftMask,           	XK_j,      					rotatestack,    {.i = +1 } },
+	{ MOD2KEY|ShiftMask,           	XK_k,      					rotatestack,    {.i = -1 } },
+	{ MOD2KEY,                     	XK_j,      					focusstack,     {.i = +1 } },
+	{ MOD2KEY,                     	XK_k,      					focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_i,      					incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_d,      					incnmaster,     {.i = -1 } },
+	{ MOD2KEY,                     	XK_h,      					setmfact,       {.f = -0.05} },
+	{ MOD2KEY,                     	XK_l,      					setmfact,       {.f = +0.05} },
+	{ MOD2KEY,                     	XK_Return, 					zoom,           {0} },
+	{ MOD2KEY,                     	XK_Tab,    					view,           {0} },
+	{ MOD2KEY,                     	XK_q,      					killclient,     {0} },
+	{ MODKEY|ShiftMask,             XK_t,      					setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ShiftMask,             XK_f,      					setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             XK_m,      					setlayout,      {.v = &layouts[2]} },
+	/*{ MODKEY,                       XK_space,  				  setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_space,  					togglefloating, {0} },*/
+	{ MODKEY,                       XK_0,      					view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,      					tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_comma,  					focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period, 					focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,  					tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period, 					tagmon,         {.i = +1 } },
+	{ MODKEY|ControlMask|ShiftMask, XK_q,      					quit,           {1} }, /*{ MOD2KEY|ShiftMask,          	XK_q,      quit,           {0} }, */
+	TAGKEYS(                        XK_1,                      					0)
+	TAGKEYS(                        XK_2,                      					1)
+	TAGKEYS(                        XK_3,                      					2)
+	TAGKEYS(                        XK_4,                      					3)
+	TAGKEYS(                        XK_5,                      					4)
+	TAGKEYS(                        XK_6,                      					5)
+	TAGKEYS(                        XK_7,                      			   	  	6)
+	TAGKEYS(                        XK_8,                      					7)
+	TAGKEYS(                        XK_9,                      					8)
+	/* FN key functionality */
+	{ 0, 							XF86XK_AudioLowerVolume, 	spawn, 			{.v = downvol } },
+    { 0, 							XF86XK_AudioMute, 			spawn, 			{.v = mutevol } },
+    { 0, 							XF86XK_AudioRaiseVolume, 	spawn, 			{.v = upvol } },
+    { 0, 							XF86XK_MonBrightnessUp, 	spawn, 			{.v = brupcmd } },
+    { 0, 							XF86XK_MonBrightnessDown, 	spawn, 			{.v = brdowncmd } },
+	/* custom shortcuts */
+	{ MODKEY,                     	XK_space,  					spawn,      	SHCMD("rofi -show drun -modi drun -show-icons") },
+	{ MODKEY|ShiftMask,				XK_x,	   					spawn,      	{.v = powermenu } },
+	{ MODKEY,						XK_e,	   					spawn,		   	SHCMD("thunar $HOME") },
+	{ MODKEY,						XK_f,	   					spawn,		   	SHCMD("flatpak run org.mozilla.firefox") },
+	{ MODKEY,						XK_t,	   					spawn,		   	SHCMD("thorium-browser --proxy-server=socks5://10.11.12.100:1080") },
+	{ MODKEY,		                XK_w, 	   					spawn,          SHCMD("flatpak run io.github.mimbrero.WhatsAppDesktop") },
+	{ MODKEY,		                XK_Return, 					spawn,          SHCMD("kitty") }, /*{.v = termcmd } },*/
+	{ MODKEY,						XK_v,	   					spawn,	   	   	SHCMD("xfce4-popup-clipman") },
+	{ ControlMask|ShiftMask,		XK_q,	   					spawn,	   	   	SHCMD("bash $HOME/.suckless/dwm/trayer.sh") },
+	{ MODKEY|ShiftMask,				XK_s,	   					spawn,	   	   	{.v = flameshot } },
 };
 
 /* button definitions */
@@ -114,7 +142,7 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button2,        spawn,          {.v = powermenu } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
