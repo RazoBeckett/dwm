@@ -51,6 +51,8 @@
 #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
 #define INTERSECT(x,y,w,h,m)    (MAX(0, MIN((x)+(w),(m)->wx+(m)->ww) - MAX((x),(m)->wx)) \
                                * MAX(0, MIN((y)+(h),(m)->wy+(m)->wh) - MAX((y),(m)->wy)))
+#define INTERSECTC(x,y,w,h,z)   (MAX(0, MIN((x)+(w),(z)->x+(z)->w) - MAX((x),(z)->x)) \
+                               * MAX(0, MIN((y)+(h),(z)->y+(z)->h) - MAX((y),(z)->y)))
 #define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
 #define LENGTH(X)               (sizeof X / sizeof X[0])
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
@@ -110,6 +112,7 @@ struct Client {
 	int bw, oldbw;
 	unsigned int tags;
 	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
+	int beingmoved;
 	unsigned int icw, ich; Picture icon;
 	Client *next;
 	Client *snext;
@@ -216,10 +219,13 @@ static void maprequest(XEvent *e);
 static void monocle(Monitor *m);
 static void motionnotify(XEvent *e);
 static void movemouse(const Arg *arg);
+static void moveorplace(const Arg *arg);
 static Client *nexttiled(Client *c);
+static void placemouse(const Arg *arg);
 static void pop(Client *c);
 static void propertynotify(XEvent *e);
 static void quit(const Arg *arg);
+static Client *recttoclient(int x, int y, int w, int h);
 static Monitor *recttomon(int x, int y, int w, int h);
 static void removesystrayicon(Client *i);
 static void resize(Client *c, int x, int y, int w, int h, int interact);
@@ -280,6 +286,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
+static void autostart_exec(void);
 
 /* variables */
 static Systray *systray = NULL;
@@ -332,6 +339,34 @@ struct Pertag {
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
+
+/* dwm will keep pid's of processes from autostart array and kill them at quit */
+static pid_t *autostart_pids;
+static size_t autostart_len;
+
+/* execute command from autostart array */
+static void
+autostart_exec() {
+	const char *const *p;
+	size_t i = 0;
+
+	/* count entries */
+	for (p = autostart; *p; autostart_len++, p++)
+		while (*++p);
+
+	autostart_pids = malloc(autostart_len * sizeof(pid_t));
+	for (p = autostart; *p; i++, p++) {
+		if ((autostart_pids[i] = fork()) == 0) {
+			setsid();
+			execvp(*p, (char *const *)p);
+			fprintf(stderr, "dwm: execvp %s\n", *p);
+			perror(" failed");
+			_exit(EXIT_FAILURE);
+		}
+		/* skip arguments */
+		while (*++p);
+	}
+}
 
 /* function implementations */
 void
@@ -1530,6 +1565,14 @@ motionnotify(XEvent *e)
 }
 
 void
+moveorplace(const Arg *arg) {
+	if ((!selmon->lt[selmon->sellt]->arrange || (selmon->sel && selmon->sel->isfloating)))
+		movemouse(arg);
+	else
+		placemouse(arg);
+}
+
+void
 movemouse(const Arg *arg)
 {
 	int x, y, ocx, ocy, nx, ny;
@@ -1589,6 +1632,139 @@ nexttiled(Client *c)
 {
 	for (; c && (c->isfloating || !ISVISIBLE(c)); c = c->next);
 	return c;
+}
+
+void
+placemouse(const Arg *arg)
+{
+	int x, y, px, py, ocx, ocy, nx = -9999, ny = -9999, freemove = 0;
+	Client *c, *r = NULL, *at, *prevr;
+	Monitor *m;
+	XEvent ev;
+	XWindowAttributes wa;
+	Time lasttime = 0;
+	int attachmode, prevattachmode;
+	attachmode = prevattachmode = -1;
+
+	if (!(c = selmon->sel) || !c->mon->lt[c->mon->sellt]->arrange) /* no support for placemouse when floating layout is used */
+		return;
+	if (c->isfullscreen) /* no support placing fullscreen windows by mouse */
+		return;
+	restack(selmon);
+	prevr = c;
+	if (XGrabPointer(dpy, root, False, MOUSEMASK, GrabModeAsync, GrabModeAsync,
+		None, cursor[CurMove]->cursor, CurrentTime) != GrabSuccess)
+		return;
+
+	c->isfloating = 0;
+	c->beingmoved = 1;
+
+	XGetWindowAttributes(dpy, c->win, &wa);
+	ocx = wa.x;
+	ocy = wa.y;
+
+	if (arg->i == 2) // warp cursor to client center
+		XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, WIDTH(c) / 2, HEIGHT(c) / 2);
+
+	if (!getrootptr(&x, &y))
+		return;
+
+	do {
+		XMaskEvent(dpy, MOUSEMASK|ExposureMask|SubstructureRedirectMask, &ev);
+		switch (ev.type) {
+		case ConfigureRequest:
+		case Expose:
+		case MapRequest:
+			handler[ev.type](&ev);
+			break;
+		case MotionNotify:
+			if ((ev.xmotion.time - lasttime) <= (1000 / 60))
+				continue;
+			lasttime = ev.xmotion.time;
+
+			nx = ocx + (ev.xmotion.x - x);
+			ny = ocy + (ev.xmotion.y - y);
+
+			if (!freemove && (abs(nx - ocx) > snap || abs(ny - ocy) > snap))
+				freemove = 1;
+
+			if (freemove)
+				XMoveWindow(dpy, c->win, nx, ny);
+
+			if ((m = recttomon(ev.xmotion.x, ev.xmotion.y, 1, 1)) && m != selmon)
+				selmon = m;
+
+			if (arg->i == 1) { // tiled position is relative to the client window center point
+				px = nx + wa.width / 2;
+				py = ny + wa.height / 2;
+			} else { // tiled position is relative to the mouse cursor
+				px = ev.xmotion.x;
+				py = ev.xmotion.y;
+			}
+
+			r = recttoclient(px, py, 1, 1);
+
+			if (!r || r == c)
+				break;
+
+			attachmode = 0; // below
+			if (((float)(r->y + r->h - py) / r->h) > ((float)(r->x + r->w - px) / r->w)) {
+				if (abs(r->y - py) < r->h / 2)
+					attachmode = 1; // above
+			} else if (abs(r->x - px) < r->w / 2)
+				attachmode = 1; // above
+
+			if ((r && r != prevr) || (attachmode != prevattachmode)) {
+				detachstack(c);
+				detach(c);
+				if (c->mon != r->mon) {
+					arrangemon(c->mon);
+					c->tags = r->mon->tagset[r->mon->seltags];
+				}
+
+				c->mon = r->mon;
+				r->mon->sel = r;
+
+				if (attachmode) {
+					if (r == r->mon->clients)
+						attach(c);
+					else {
+						for (at = r->mon->clients; at->next != r; at = at->next);
+						c->next = at->next;
+						at->next = c;
+					}
+				} else {
+					c->next = r->next;
+					r->next = c;
+				}
+
+				attachstack(c);
+				arrangemon(r->mon);
+				prevr = r;
+				prevattachmode = attachmode;
+			}
+			break;
+		}
+	} while (ev.type != ButtonRelease);
+	XUngrabPointer(dpy, CurrentTime);
+
+	if ((m = recttomon(ev.xmotion.x, ev.xmotion.y, 1, 1)) && m != c->mon) {
+		detach(c);
+		detachstack(c);
+		arrangemon(c->mon);
+		c->mon = m;
+		c->tags = m->tagset[m->seltags];
+		attach(c);
+		attachstack(c);
+		selmon = m;
+	}
+
+	focus(c);
+	c->beingmoved = 0;
+
+	if (nx != -9999)
+		resize(c, nx, ny, c->w, c->h, 0);
+	arrangemon(c->mon);
 }
 
 void
@@ -1656,8 +1832,33 @@ propertynotify(XEvent *e)
 void
 quit(const Arg *arg)
 {
+	size_t i;
+
+	/* kill child processes */
+	for (i = 0; i < autostart_len; i++) {
+		if (0 < autostart_pids[i]) {
+			kill(autostart_pids[i], SIGTERM);
+			waitpid(autostart_pids[i], NULL, 0);
+		}
+	}
+
 	if(arg->i) restart = 1;
 	running = 0;
+}
+
+Client *
+recttoclient(int x, int y, int w, int h)
+{
+	Client *c, *r = NULL;
+	int a, area = 0;
+
+	for (c = nexttiled(selmon->clients); c; c = nexttiled(c->next)) {
+		if ((a = INTERSECTC(x, y, w, h, c)) > area) {
+			area = a;
+			r = c;
+		}
+	}
+	return r;
 }
 
 Monitor *
@@ -1735,6 +1936,9 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	c->oldy = c->y; c->y = wc.y = y + gapoffset;
 	c->oldw = c->w; c->w = wc.width = w - gapincr;
 	c->oldh = c->h; c->h = wc.height = h - gapincr;
+
+	if (c->beingmoved)
+		return;
 
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
@@ -2152,9 +2356,25 @@ showhide(Client *c)
 void
 sigchld(int unused)
 {
+	pid_t pid;
+
 	if (signal(SIGCHLD, sigchld) == SIG_ERR)
 		die("can't install SIGCHLD handler:");
-	while (0 < waitpid(-1, NULL, WNOHANG));
+	while (0 < (pid = waitpid(-1, NULL, WNOHANG))) {
+		pid_t *p, *lim;
+
+		if (!(p = autostart_pids))
+			continue;
+		lim = &p[autostart_len];
+
+		for (; p < lim; p++) {
+			if (*p == pid) {
+				*p = -1;
+				break;
+			}
+		}
+
+	}
 }
 
 void
@@ -2916,6 +3136,7 @@ main(int argc, char *argv[])
 	if (!(dpy = XOpenDisplay(NULL)))
 		die("dwm: cannot open display");
 	checkotherwm();
+	autostart_exec();
 	setup();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
