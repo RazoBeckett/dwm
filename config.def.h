@@ -88,7 +88,14 @@ static const char *mutevol[]  = { "/home/razobeckett/.config/suckless/dwm/script
 //static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
 static const char *powermenu[] = { "rofi", "-show", "power-menu", "-modi", "power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
+static const char *rofimenu[] = { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", NULL };
+static const char *thorium[]  = { "thorium-browser","--proxy-server=socks5://10.11.12.100:1080", NULL };
+static const char *whatsapp[]  = { "flatpak", "run", "io.github.mimbrero.WhatsAppDesktop", NULL };
+static const char *firefox[]  = { "flatpak", "run", "org.mozilla.firefox", NULL };
+static const char *clipman[]  = { "xfce4-popup-clipman", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
+static const char *thunar[]  = { "thunar", NULL };
+static const char *termcmd[]  = { "kitty", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        					function        argument */
@@ -133,15 +140,14 @@ static const Key keys[] = {
     { 0, 							XF86XK_MonBrightnessUp, 	spawn, 			{.v = brupcmd } },
     { 0, 							XF86XK_MonBrightnessDown, 	spawn, 			{.v = brdowncmd } },
 	/* custom shortcuts */
-	{ MODKEY,                     	XK_space,  					spawn,      	SHCMD("rofi -show drun -modi drun -show-icons") },
+	{ MODKEY,                     	XK_space,  					spawn,      	{.v = rofimenu} },
 	{ MODKEY|ShiftMask,				XK_x,	   					spawn,      	{.v = powermenu } },
-	{ MODKEY,						XK_e,	   					spawn,		   	SHCMD("thunar $HOME") },
-	{ MODKEY,						XK_f,	   					spawn,		   	SHCMD("flatpak run org.mozilla.firefox") },
-	{ MODKEY,						XK_t,	   					spawn,		   	SHCMD("thorium-browser --proxy-server=socks5://10.11.12.100:1080") },
-	{ MODKEY,		                XK_w, 	   					spawn,          SHCMD("flatpak run io.github.mimbrero.WhatsAppDesktop") },
-	{ MODKEY,		                XK_Return, 					spawn,          SHCMD("kitty") }, /*{.v = termcmd } },*/
-	{ MODKEY,						XK_v,	   					spawn,	   	   	SHCMD("xfce4-popup-clipman") },
-	{ ControlMask|ShiftMask,		XK_q,	   					spawn,	   	   	SHCMD("/home/razobeckett/.config/suckless/dwm/scripts/trayer.sh") },
+	{ MODKEY,						XK_e,	   					spawn,		   	{.v = thunar } },
+	{ MODKEY,						XK_f,	   					spawn,		   	{.v = firefox } },
+	{ MODKEY,						XK_t,	   					spawn,		   	{.v = thorium } },
+	{ MODKEY,		                XK_w, 	   					spawn,          {.v = whatsapp } },
+	{ MODKEY,		                XK_Return, 					spawn,          {.v = termcmd } },
+	{ MODKEY,						XK_v,	   					spawn,	   	   	{.v = clipman } },
 	{ MODKEY|ShiftMask,				XK_s,	   					spawn,	   	   	{.v = flameshot } },
 };
 
