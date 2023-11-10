@@ -95,7 +95,7 @@ static const char *firefox[]  = { "flatpak", "run", "org.mozilla.firefox", NULL 
 static const char *clipman[]  = { "xfce4-popup-clipman", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
 static const char *thunar[]  = { "thunar", NULL };
-static const char *termcmd[]  = { "kitty", NULL };
+static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        					function        argument */
