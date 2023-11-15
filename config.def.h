@@ -30,7 +30,6 @@ static const char *colors[][3]      = {
 static const char *const autostart[] = {
 	"thunar", "--daemon", NULL,
 	"slstatus", NULL,
-	"pasystray", NULL,
 	"nm-applet", NULL,
 	"xfce4-clipman", NULL,
 	"picom", "--vsync", "-b", "--animations", "--animation-window-mass", "0.5", "--animation-for-open-window", "zoom", "--animation-stiffness", "500", NULL,
@@ -92,7 +91,8 @@ static const char *powermenu[] = { "rofi", "-show", "power-menu", "-modi", "powe
 static const char *rofimenu[] = { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", NULL };
 static const char *thorium[]  = { "thorium-browser","--proxy-server=socks5://10.11.12.100:1080", NULL };
 static const char *whatsapp[]  = { "flatpak", "run", "io.github.mimbrero.WhatsAppDesktop", NULL };
-static const char *firefox[]  = { "flatpak", "run", "org.mozilla.firefox", NULL };
+static const char *firefox[] = { "firefox", NULL };
+//static const char *firefox[]  = { "flatpak", "run", "org.mozilla.firefox", NULL };
 static const char *clipman[]  = { "xfce4-popup-clipman", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
 static const char *thunar[]  = { "thunar", NULL };
