@@ -31,9 +31,8 @@ static const char *const autostart[] = {
 	"thunar", "--daemon", NULL,
 	"slstatus", NULL,
 	"nm-applet", NULL,
-	"xfce4-clipman", NULL,
+	"rog-control-center", NULL,
 	"picom", "--vsync", "-b", "--animations", "--animation-window-mass", "0.5", "--animation-for-open-window", "zoom", "--animation-stiffness", "500", NULL,
-	//"st", NULL,
 	NULL /* terminate */
 };
 
