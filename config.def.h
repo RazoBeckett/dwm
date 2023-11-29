@@ -28,7 +28,6 @@ static const char *colors[][3]      = {
 };
 
 static const char *const autostart[] = {
-	"thunar", "--daemon", NULL,
 	"slstatus", NULL,
 	"nm-applet", "--indicator", NULL,
 	"rog-control-center", NULL,
@@ -94,8 +93,9 @@ static const char *firefox[] = { "firefox", NULL };
 //static const char *firefox[]  = { "flatpak", "run", "org.mozilla.firefox", NULL };
 static const char *clipman[]  = { "xfce4-popup-clipman", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
-static const char *thunar[]  = { "thunar", NULL };
+//static const char *thunar[]  = { "thunar", NULL };
 static const char *termcmd[]  = { "kitty", NULL };
+static const char *pcmanfm[] = { "pcmanfm", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        					function        argument */
@@ -134,21 +134,21 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      					7)
 	TAGKEYS(                        XK_9,                      					8)
 	/* FN key functionality */
-	{ 0, 							XF86XK_AudioLowerVolume, 	spawn, 			{.v = downvol } },
-    { 0, 							XF86XK_AudioMute, 			spawn, 			{.v = mutevol } },
-    { 0, 							XF86XK_AudioRaiseVolume, 	spawn, 			{.v = upvol } },
-    { 0, 							XF86XK_MonBrightnessUp, 	spawn, 			{.v = brupcmd } },
-    { 0, 							XF86XK_MonBrightnessDown, 	spawn, 			{.v = brdowncmd } },
+	{ 0, 				XF86XK_AudioLowerVolume,			spawn, 		{.v = downvol } },
+	{ 0, 				XF86XK_AudioMute,				spawn, 		{.v = mutevol } },
+	{ 0, 				XF86XK_AudioRaiseVolume,			spawn, 		{.v = upvol } },
+	{ 0, 				XF86XK_MonBrightnessUp,				spawn, 		{.v = brupcmd } },
+	{ 0, 				XF86XK_MonBrightnessDown,			spawn, 		{.v = brdowncmd } },
 	/* custom shortcuts */
-	{ MODKEY,                     	XK_space,  					spawn,      	{.v = rofimenu} },
-	{ MODKEY|ShiftMask,				XK_x,	   					spawn,      	{.v = powermenu } },
-	{ MODKEY,						XK_e,	   					spawn,		   	{.v = thunar } },
-	{ MODKEY,						XK_f,	   					spawn,		   	{.v = firefox } },
-	{ MODKEY,						XK_t,	   					spawn,		   	{.v = thorium } },
-	{ MODKEY,		                XK_w, 	   					spawn,          {.v = whatsapp } },
-	{ MODKEY,		                XK_Return, 					spawn,          {.v = termcmd } },
-	{ MODKEY,						XK_v,	   					spawn,	   	   	{.v = clipman } },
-	{ MODKEY|ShiftMask,				XK_s,	   					spawn,	   	   	{.v = flameshot } },
+	{ MODKEY,			XK_space,					spawn,      	{.v = rofimenu} },
+	{ MODKEY|ShiftMask,		XK_x,						spawn,      	{.v = powermenu } },
+	{ MODKEY,			XK_e,						spawn,		{.v = pcmanfm } },
+	{ MODKEY,			XK_f,						spawn,		{.v = firefox } },
+	{ MODKEY,			XK_t,						spawn,		{.v = thorium } },
+	{ MODKEY,			XK_w,						spawn,          {.v = whatsapp } },
+	{ MODKEY,			XK_Return,					spawn,          {.v = termcmd } },
+	{ MODKEY,			XK_v,						spawn,	   	{.v = clipman } },
+	{ MODKEY|ShiftMask,		XK_s,						spawn,	   	{.v = flameshot } },
 };
 
 /* button definitions */
