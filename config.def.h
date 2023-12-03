@@ -147,6 +147,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_t,						spawn,		{.v = thorium } },
 	{ MODKEY,			XK_w,						spawn,          {.v = whatsapp } },
 	{ MODKEY,			XK_Return,					spawn,          {.v = termcmd } },
+	{ MODKEY,			XK_l,					spawn,          SHCMD("dm-tool lock") },
 	{ MODKEY,			XK_v,						spawn,	   	{.v = clipman } },
 	{ MODKEY|ShiftMask,		XK_s,						spawn,	   	{.v = flameshot } },
 };
