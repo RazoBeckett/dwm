@@ -31,6 +31,7 @@ static const char *const autostart[] = {
 	"slstatus", NULL,
 	"nm-applet", "--indicator", NULL,
 	"rog-control-center", NULL,
+	"xfce4-clipman", NULL,
 	"picom", "--vsync", "-b", "--animations", "--animation-window-mass", "0.5", "--animation-for-open-window", "zoom", "--animation-stiffness", "500", NULL,
 	NULL /* terminate */
 };
@@ -85,8 +86,8 @@ static const char *mutevol[]  = { "/home/razobeckett/.config/suckless/dwm/script
 /* user commands*/
 //static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
-static const char *powermenu[] = { "rofi", "-show", "power-menu", "-modi", "power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
-static const char *rofimenu[] = { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", NULL };
+static const char *powermenu[] = { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
+static const char *rofimenu[] = { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
 static const char *thorium[]  = { "thorium-browser","--proxy-server=socks5://10.11.12.100:1080", NULL };
 static const char *whatsapp[]  = { "flatpak", "run", "io.github.mimbrero.WhatsAppDesktop", NULL };
 static const char *firefox[] = { "firefox", NULL };
@@ -95,7 +96,7 @@ static const char *clipman[]  = { "xfce4-popup-clipman", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
 //static const char *thunar[]  = { "thunar", NULL };
 static const char *termcmd[]  = { "kitty", NULL };
-static const char *pcmanfm[] = { "pcmanfm", NULL};
+static const char *nemo[] = { "nemo", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        					function        argument */
@@ -142,7 +143,7 @@ static const Key keys[] = {
 	/* custom shortcuts */
 	{ MODKEY,			XK_space,					spawn,      	{.v = rofimenu} },
 	{ MODKEY|ShiftMask,		XK_x,						spawn,      	{.v = powermenu } },
-	{ MODKEY,			XK_e,						spawn,		{.v = pcmanfm } },
+	{ MODKEY,			XK_e,						spawn,		{.v = nemo } },
 	{ MODKEY,			XK_f,						spawn,		{.v = firefox } },
 	{ MODKEY,			XK_t,						spawn,		{.v = thorium } },
 	{ MODKEY,			XK_w,						spawn,          {.v = whatsapp } },
