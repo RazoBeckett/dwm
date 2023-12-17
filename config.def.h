@@ -82,7 +82,8 @@ static const char *brdowncmd[]  = { "/home/razobeckett/.config/suckless/dwm/scri
 static const char *upvol[]  = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "up", NULL};
 static const char *downvol[]  =  { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "down", NULL};
 static const char *mutevol[]  = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "mute", NULL};
-
+static const char scratchpadname[] = "scratchpad";
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 /* user commands*/
 //static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
@@ -136,21 +137,22 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      					8)
 	/* FN key functionality */
 	{ 0, 				XF86XK_AudioLowerVolume,			spawn, 		{.v = downvol } },
-	{ 0, 				XF86XK_AudioMute,				spawn, 		{.v = mutevol } },
+	{ 0, 				XF86XK_AudioMute,					spawn, 		{.v = mutevol } },
 	{ 0, 				XF86XK_AudioRaiseVolume,			spawn, 		{.v = upvol } },
 	{ 0, 				XF86XK_MonBrightnessUp,				spawn, 		{.v = brupcmd } },
 	{ 0, 				XF86XK_MonBrightnessDown,			spawn, 		{.v = brdowncmd } },
 	/* custom shortcuts */
-	{ MODKEY,			XK_space,					spawn,      	{.v = rofimenu} },
-	{ MODKEY|ShiftMask,		XK_x,						spawn,      	{.v = powermenu } },
-	{ MODKEY,			XK_e,						spawn,		{.v = nemo } },
-	{ MODKEY,			XK_f,						spawn,		{.v = firefox } },
-	{ MODKEY,			XK_t,						spawn,		{.v = thorium } },
-	{ MODKEY,			XK_w,						spawn,          {.v = whatsapp } },
-	{ MODKEY,			XK_Return,					spawn,          {.v = termcmd } },
-	{ MODKEY,			XK_l,					spawn,          SHCMD("dm-tool lock") },
-	{ MODKEY,			XK_v,						spawn,	   	{.v = clipman } },
-	{ MODKEY|ShiftMask,		XK_s,						spawn,	   	{.v = flameshot } },
+	{ MODKEY,           XK_grave,  					togglescratch,  	{.v = scratchpadcmd } },
+	{ MODKEY,			XK_space,					spawn,      		{.v = rofimenu} },
+	{ MODKEY|ShiftMask,	XK_x,						spawn,      		{.v = powermenu } },
+	{ MODKEY,			XK_e,						spawn,				{.v = nemo } },
+	{ MODKEY,			XK_f,						spawn,				{.v = firefox } },
+	{ MODKEY,			XK_t,						spawn,				{.v = thorium } },
+	{ MODKEY,			XK_w,						spawn,          	{.v = whatsapp } },
+	{ MODKEY,			XK_Return,					spawn,          	{.v = termcmd } },
+	{ MODKEY,			XK_l,						spawn,          	SHCMD("dm-tool lock") },
+	{ MODKEY,			XK_v,						spawn,	   			{.v = clipman } },
+	{ MODKEY|ShiftMask,	XK_s,						spawn,	   			{.v = flameshot } },
 };
 
 /* button definitions */
