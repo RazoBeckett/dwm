@@ -65,12 +65,12 @@ static const Layout layouts[] = {
 
 /* key definitions */
 #define MODKEY Mod4Mask
-#define MOD2KEY Mod1Mask
+#define ALTKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MOD2KEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MOD2KEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MOD2KEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MOD2KEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ ALTKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
+	{ ALTKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
+	{ ALTKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ ALTKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -92,29 +92,27 @@ static const char *powermenu[] = { "rofi", "-show", "power-menu", "-modi","power
 static const char *rofimenu[] = { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
 static const char *thorium[]  = { "thorium-browser","--proxy-server=socks5://10.11.12.100:1080", NULL };
 static const char *whatsapp[]  = { "flatpak", "run", "io.github.mimbrero.WhatsAppDesktop", NULL };
-static const char *firefox[] = { "firefox", NULL };
-//static const char *firefox[]  = { "flatpak", "run", "org.mozilla.firefox", NULL };
+static const char *firefox[] = { "firefox", NULL }; // For Flatpak: { "flatpak", "run", "org.mozilla.firefox", NULL };
 static const char *clipman[]  = { "xfce4-popup-clipman", NULL };
 static const char *flameshot[]  = { "flameshot", "gui", NULL };
-//static const char *thunar[]  = { "thunar", NULL };
 static const char *termcmd[]  = { "kitty", NULL };
-static const char *nemo[] = { "nemo", NULL};
+static const char *filemanager[] = { "nemo", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        					function        argument */
 	{ MODKEY,                       XK_p,      					spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_b,      					togglebar,      {0} },
-	{ MOD2KEY|ShiftMask,           	XK_j,      					rotatestack,    {.i = +1 } },
-	{ MOD2KEY|ShiftMask,           	XK_k,      					rotatestack,    {.i = -1 } },
-	{ MOD2KEY,                     	XK_j,      					focusstack,     {.i = +1 } },
-	{ MOD2KEY,                     	XK_k,      					focusstack,     {.i = -1 } },
+	{ ALTKEY|ShiftMask,           	XK_j,      					rotatestack,    {.i = +1 } },
+	{ ALTKEY|ShiftMask,           	XK_k,      					rotatestack,    {.i = -1 } },
+	{ ALTKEY,                     	XK_j,      					focusstack,     {.i = +1 } },
+	{ ALTKEY,                     	XK_k,      					focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      					incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      					incnmaster,     {.i = -1 } },
-	{ MOD2KEY,                     	XK_h,      					setmfact,       {.f = -0.05} },
-	{ MOD2KEY,                     	XK_l,      					setmfact,       {.f = +0.05} },
-	{ MOD2KEY,                     	XK_Return, 					zoom,           {0} },
-	{ MOD2KEY,                     	XK_Tab,    					view,           {0} },
-	{ MOD2KEY,                     	XK_q,      					killclient,     {0} },
+	{ ALTKEY,                     	XK_h,      					setmfact,       {.f = -0.05} },
+	{ ALTKEY,                     	XK_l,      					setmfact,       {.f = +0.05} },
+	{ ALTKEY,                     	XK_Return, 					zoom,           {0} },
+	{ ALTKEY,                     	XK_Tab,    					view,           {0} },
+	{ ALTKEY,                     	XK_q,      					killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_t,      					setlayout,      {.v = &layouts[0]} },
 	{ MODKEY|ShiftMask,             XK_f,      					setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_m,      					setlayout,      {.v = &layouts[2]} },
@@ -126,7 +124,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, 					focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  					tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, 					tagmon,         {.i = +1 } },
-	{ MODKEY|ControlMask|ShiftMask, XK_q,      					quit,           {1} }, /*{ MOD2KEY|ShiftMask,          	XK_q,      quit,           {0} }, */
+	{ MODKEY|ControlMask|ShiftMask, XK_q,      					quit,           {1} }, /*{ ALTKEY|ShiftMask,          	XK_q,      quit,           {0} }, */
 	TAGKEYS(                        XK_1,                      					0)
 	TAGKEYS(                        XK_2,                      					1)
 	TAGKEYS(                        XK_3,                      					2)
@@ -138,21 +136,21 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      					8)
 	/* FN key functionality */
 	{ 0, 				XF86XK_AudioLowerVolume,			spawn, 		{.v = downvol } },
-	{ 0, 				XF86XK_AudioMute,					spawn, 		{.v = mutevol } },
+	{ 0, 				XF86XK_AudioMute,							spawn, 		{.v = mutevol } },
 	{ 0, 				XF86XK_AudioRaiseVolume,			spawn, 		{.v = upvol } },
 	{ 0, 				XF86XK_MonBrightnessUp,				spawn, 		{.v = brupcmd } },
 	{ 0, 				XF86XK_MonBrightnessDown,			spawn, 		{.v = brdowncmd } },
 	/* custom shortcuts */
-	{ MODKEY,           XK_grave,  					togglescratch,  	{.v = scratchpadcmd } },
-	{ MODKEY,			XK_space,					spawn,      		{.v = rofimenu} },
+	{ MODKEY,           XK_grave,  			togglescratch,  {.v = scratchpadcmd } },
+	{ MODKEY,						XK_space,				spawn,      		{.v = rofimenu} },
 	{ MODKEY|ShiftMask,	XK_x,						spawn,      		{.v = powermenu } },
-	{ MODKEY,			XK_e,						spawn,				{.v = nemo } },
-	{ MODKEY,			XK_f,						spawn,				{.v = firefox } },
-	{ MODKEY,			XK_t,						spawn,				{.v = thorium } },
-	{ MODKEY,			XK_w,						spawn,          	{.v = whatsapp } },
-	{ MODKEY,			XK_Return,					spawn,          	{.v = termcmd } },
-	{ MODKEY,			XK_l,						spawn,          	SHCMD("dm-tool lock") },
-	{ MODKEY,			XK_v,						spawn,	   			{.v = clipman } },
+	{ MODKEY,						XK_e,						spawn,					{.v = filemanager } },
+	{ MODKEY,						XK_f,						spawn,					{.v = firefox } },
+	{ MODKEY,						XK_t,						spawn,					{.v = thorium } },
+	{ MODKEY,						XK_w,						spawn,          {.v = whatsapp } },
+	{ MODKEY,						XK_Return,			spawn,          {.v = termcmd } },
+	{ MODKEY,						XK_l,						spawn,          SHCMD("dm-tool lock") },
+	{ MODKEY,						XK_v,						spawn,	   			{.v = clipman } },
 	{ MODKEY|ShiftMask,	XK_s,						spawn,	   			{.v = flameshot } },
 };
 
