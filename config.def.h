@@ -87,21 +87,22 @@ static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 /* user commands*/
 //static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
-static const char *powermenu[] = { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
-static const char *rofimenu[] = { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
-static const char *thorium[]  = { "thorium-browser","--proxy-server=socks5://10.11.12.100:1080", NULL };
-static const char *whatsapp[]  = { "flatpak", "run", "io.github.mimbrero.WhatsAppDesktop", NULL };
-static const char *firefox[] = { "firefox", NULL }; // For Flatpak: { "flatpak", "run", "org.mozilla.firefox", NULL };
-static const char *clipman[]  = { "xfce4-popup-clipman", NULL };
-static const char *flameshot[]  = { "flameshot", "gui", NULL };
-static const char *termcmd[]  = { "kitty", NULL };
-static const char *filemanager[] = { "nemo", NULL};
+static const char *dmenucmd[]			= { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
+static const char *powermenu[]		= { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
+static const char *rofimenu[]			= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
+static const char *thorium[]			= { "thorium-browser","--proxy-server=socks5://10.11.12.100:1080", NULL };
+static const char *whatsapp[]			= { "whatsapp-for-linux", NULL };
+static const char *brave[]				= { "brave", NULL };
+static const char *firefox[]			= { "firefox", NULL }; // For Flatpak: { "flatpak", "run", "org.mozilla.firefox", NULL };
+static const char *clipman[]			= { "xfce4-popup-clipman", NULL };
+static const char *flameshot[]		= { "flameshot", "gui", NULL };
+static const char *termcmd[]			= { "kitty", NULL };
+static const char *filemanager[]	= { "nemo", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        					function        argument */
 	{ MODKEY,                       XK_p,      					spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_b,      					togglebar,      {0} },
+	{ MODKEY|ALTKEY,                XK_b,      					togglebar,      {0} },
 	{ ALTKEY|ShiftMask,           	XK_j,      					rotatestack,    {.i = +1 } },
 	{ ALTKEY|ShiftMask,           	XK_k,      					rotatestack,    {.i = -1 } },
 	{ ALTKEY,                     	XK_j,      					focusstack,     {.i = +1 } },
@@ -124,14 +125,14 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, 					focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  					tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, 					tagmon,         {.i = +1 } },
-	{ MODKEY|ControlMask|ShiftMask, XK_q,      					quit,           {1} }, /*{ ALTKEY|ShiftMask,          	XK_q,      quit,           {0} }, */
+	{ MODKEY|ALTKEY,								XK_BackSpace,      	quit,           {1} }, /*{ ALTKEY|ShiftMask,          	XK_q,      quit,           {0} }, */
 	TAGKEYS(                        XK_1,                      					0)
 	TAGKEYS(                        XK_2,                      					1)
 	TAGKEYS(                        XK_3,                      					2)
 	TAGKEYS(                        XK_4,                      					3)
 	TAGKEYS(                        XK_5,                      					4)
 	TAGKEYS(                        XK_6,                      					5)
-	TAGKEYS(                        XK_7,                      			   	  	6)
+	TAGKEYS(                        XK_7,                      			   	6)
 	TAGKEYS(                        XK_8,                      					7)
 	TAGKEYS(                        XK_9,                      					8)
 	/* FN key functionality */
@@ -143,10 +144,11 @@ static const Key keys[] = {
 	/* custom shortcuts */
 	{ MODKEY,           XK_grave,  			togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,						XK_space,				spawn,      		{.v = rofimenu} },
-	{ MODKEY|ShiftMask,	XK_x,						spawn,      		{.v = powermenu } },
+	{ MODKEY,						XK_BackSpace,		spawn,      		{.v = powermenu } },
 	{ MODKEY,						XK_e,						spawn,					{.v = filemanager } },
 	{ MODKEY,						XK_f,						spawn,					{.v = firefox } },
 	{ MODKEY,						XK_t,						spawn,					{.v = thorium } },
+	{ MODKEY,						XK_b,						spawn,					{.v = brave } },
 	{ MODKEY,						XK_w,						spawn,          {.v = whatsapp } },
 	{ MODKEY,						XK_Return,			spawn,          {.v = termcmd } },
 	{ MODKEY,						XK_l,						spawn,          SHCMD("dm-tool lock") },
