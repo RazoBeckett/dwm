@@ -29,6 +29,7 @@ static const char *colors[][3]      = {
 
 static const char *const autostart[] = {
 	"slstatus", NULL,
+	"volumeicon", NULL,
 	"nm-applet", "--indicator", NULL,
 	"rog-control-center", NULL,
 	"xfce4-clipman", NULL,
