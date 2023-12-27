@@ -1,27 +1,25 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int gappx     = 4;        /* gaps between windows */
-static const unsigned int fgappx    = 18;        /* gaps around only one window*/
-static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int borderpx		 = 2;   /* border pixel of windows */
+static const unsigned int gappx			 = 4;   /* gaps between windows */
+static const unsigned int fgappx		 = 18;  /* gaps around only one window*/
+static const unsigned int snap			 = 32;  /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft  = 0;   /* 0: systray in the right corner, >0: systray on left of status text */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
-static const int showsystray        = 1;        /* 0 means no systray */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-#define ICONSIZE 20   /* icon size */
-#define ICONSPACING 8 /* space between icon and title */
-static const char *fonts[]          = { "JetBrains Mono Nerd Font:weight=bold:size=11:antialias=true:hinting=true" };
-static const char dmenufont[]       = "JetBrains Mono Nerd Font:weight=bold:size=11:antialias=true:hinting=true"; 
+static const int showsystray		= 1;        /* 0 means no systray */
+static const int showbar			= 1;        /* 0 means no bar */
+static const int topbar				= 1;        /* 0 means bottom bar */
+static const char *fonts[]			= { "JetBrains Mono Nerd Font:weight=bold:size=11:antialias=true:hinting=true" };
+static const char dmenufont[]		= "JetBrains Mono Nerd Font:weight=bold:size=11:antialias=true:hinting=true"; 
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
-static const char col_brown[]				= "#361a09";
+static const char col_brown[]		= "#361a09";
 static const char dracula_purple[]	= "#bd93f9";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
@@ -52,15 +50,15 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const float mfact		  = 0.55; /* factor of master area size [0.05..0.95] */
+static const int   nmaster        = 1;    /* number of clients in master area */
+static const int   resizehints	  = 0;    /* 1 means respect size hints in tiled resizals */
+static const int   lockfullscreen = 1;	  /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "[]=",      tile },				 /* first entry is default */
+	{ "><>",      NULL },				 /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 };
 
@@ -74,33 +72,40 @@ static const Layout layouts[] = {
 	{ ALTKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define ICONSIZE	20					/* icon size */
+#define ICONSPACING 8					/* space between icon and title */
+#define SHCMD(cmd)	{ .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
 /* system commands */
 #include <X11/XF86keysym.h>
-static const char *brupcmd[]  = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "up", NULL };
-static const char *brdowncmd[]  = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "down", NULL };
-static const char *upvol[]  = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "up", NULL};
-static const char *downvol[]  =  { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "down", NULL};
-static const char *mutevol[]  = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "mute", NULL};
+static const char *brupcmd[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "up", NULL };
+static const char *brdowncmd[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "down", NULL };
+static const char *upvol[]		   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "up", NULL};
+static const char *downvol[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "down", NULL};
+static const char *mutevol[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "mute", NULL};
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
-/* user commands*/
-//static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *dmenucmd[]			= { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
+
+/* user constants */
+#define TERMINAL "kitty"
+#define FILEMANAGER "nemo"
+
+/* user commands */
+static const char *dmenucmd[]		= { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
 static const char *powermenu[]		= { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
-static const char *rofimenu[]			= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
-static const char *thorium[]			= { "thorium-browser","--proxy-server=socks5://10.11.12.100:1080", NULL };
-static const char *whatsapp[]			= { "whatsapp-for-linux", NULL };
-static const char *brave[]				= { "brave", NULL };
-static const char *firefox[]			= { "firefox", NULL }; // For Flatpak: { "flatpak", "run", "org.mozilla.firefox", NULL };
-static const char *clipman[]			= { "xfce4-popup-clipman", NULL };
-static const char *flameshot[]		= { "flameshot", "gui", NULL };
-static const char *termcmd[]			= { "kitty", NULL };
-static const char *filemanager[]	= { "nemo", NULL};
+static const char *rofisearch[]		= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
+static const char *rofiemoji[]		= { "rofi", "-modi", "emoji", "-show", "emoji", "-font", "JoyPixels", "12", NULL };
 
 static const Key keys[] = {
+
+	/* FN key functionality */
+	{ 0,							XF86XK_AudioLowerVolume,	spawn,			{.v = downvol } },
+	{ 0,							XF86XK_AudioMute,			spawn,			{.v = mutevol } },
+	{ 0,							XF86XK_AudioRaiseVolume,	spawn,			{.v = upvol } },
+	{ 0,							XF86XK_MonBrightnessUp,		spawn,			{.v = brupcmd } },
+	{ 0,							XF86XK_MonBrightnessDown,	spawn,			{.v = brdowncmd } },
+
 	/* modifier                     key        					function        argument */
 	{ MODKEY,                       XK_p,      					spawn,          {.v = dmenucmd } },
 	{ MODKEY|ALTKEY,                XK_b,      					togglebar,      {0} },
@@ -126,35 +131,30 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, 					focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  					tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, 					tagmon,         {.i = +1 } },
-	{ MODKEY|ALTKEY,								XK_BackSpace,      	quit,           {1} }, /*{ ALTKEY|ShiftMask,          	XK_q,      quit,           {0} }, */
+	{ MODKEY|ALTKEY,				XK_BackSpace,				quit,           {1} }, 
 	TAGKEYS(                        XK_1,                      					0)
 	TAGKEYS(                        XK_2,                      					1)
 	TAGKEYS(                        XK_3,                      					2)
 	TAGKEYS(                        XK_4,                      					3)
 	TAGKEYS(                        XK_5,                      					4)
 	TAGKEYS(                        XK_6,                      					5)
-	TAGKEYS(                        XK_7,                      			   	6)
+	TAGKEYS(                        XK_7,										6)
 	TAGKEYS(                        XK_8,                      					7)
 	TAGKEYS(                        XK_9,                      					8)
-	/* FN key functionality */
-	{ 0, 				XF86XK_AudioLowerVolume,			spawn, 		{.v = downvol } },
-	{ 0, 				XF86XK_AudioMute,							spawn, 		{.v = mutevol } },
-	{ 0, 				XF86XK_AudioRaiseVolume,			spawn, 		{.v = upvol } },
-	{ 0, 				XF86XK_MonBrightnessUp,				spawn, 		{.v = brupcmd } },
-	{ 0, 				XF86XK_MonBrightnessDown,			spawn, 		{.v = brdowncmd } },
+
 	/* custom shortcuts */
-	{ MODKEY,           XK_grave,  			togglescratch,  {.v = scratchpadcmd } },
-	{ MODKEY,						XK_space,				spawn,      		{.v = rofimenu} },
-	{ MODKEY,						XK_BackSpace,		spawn,      		{.v = powermenu } },
-	{ MODKEY,						XK_e,						spawn,					{.v = filemanager } },
-	{ MODKEY,						XK_f,						spawn,					{.v = firefox } },
-	{ MODKEY,						XK_t,						spawn,					{.v = thorium } },
-	{ MODKEY,						XK_b,						spawn,					{.v = brave } },
-	{ MODKEY,						XK_w,						spawn,          {.v = whatsapp } },
-	{ MODKEY,						XK_Return,			spawn,          {.v = termcmd } },
+	{ MODKEY,						XK_grave,					togglescratch,  {.v = scratchpadcmd } },
+	{ MODKEY,						XK_space,					spawn,      	{.v = rofisearch} },
+	{ MODKEY,						XK_period,					spawn,      	{.v = rofiemoji} },
+	{ MODKEY,						XK_BackSpace,				spawn,  		{.v = powermenu } },
+	{ MODKEY,						XK_Return,					spawn,          {.v = (const char*[]){ TERMINAL, NULL }} },
+	{ MODKEY,						XK_e,						spawn,			{.v = (const char*[]){ FILEMANAGER, NULL }} },
+	{ MODKEY,						XK_f,						spawn,			{.v = (const char*[]){ "firefox", NULL }} },
+	{ MODKEY,						XK_b,						spawn,			{.v = (const char*[]){ "brave", NULL }} },
+	{ MODKEY,						XK_w,						spawn,          {.v = (const char*[]){ "whatsapp-for-linux", NULL }} },
+	{ MODKEY,						XK_v,						spawn,	   		{.v = (const char*[]){ "xfce4-clipman-popup", NULL }} },
+	{ MODKEY|ShiftMask,				XK_s,						spawn,	   		{.v = (const char*[]){ "flameshot", "gui", NULL }} },
 	{ MODKEY,						XK_l,						spawn,          SHCMD("dm-tool lock") },
-	{ MODKEY,						XK_v,						spawn,	   			{.v = clipman } },
-	{ MODKEY|ShiftMask,	XK_s,						spawn,	   			{.v = flameshot } },
 };
 
 /* button definitions */
