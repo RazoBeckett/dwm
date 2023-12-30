@@ -5,7 +5,7 @@
 
 function send_notification(){
     brightness=$(brightnessctl | awk '/Current brightness/ {print substr($4, 2, length($4)-3)}')
-    dunstify -a "brightnessnotification" -u normal -r "9994" -h int:value:"$brightness" "Brightness: ${brightness}" -t 2000
+    dunstify -a "brightnessnotification" -u normal -r "9994" -h int:value:"$brightness" "Brightness: ${brightness}%" -t 2000
 }
 
 case $1 in
