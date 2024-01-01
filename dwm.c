@@ -2989,10 +2989,21 @@ void updatesystray(void) {
 }
 
 void updatetitle(Client *c) {
-  if (!gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name))
-    gettextprop(c->win, XA_WM_NAME, c->name, sizeof c->name);
-  if (c->name[0] == '\0') /* hack to mark broken clients */
-    strcpy(c->name, broken);
+    XClassHint ch = {NULL, NULL};
+    if (XGetClassHint(dpy, c->win, &ch)) {
+        if (ch.res_class) {
+            strncpy(c->name, ch.res_class, sizeof c->name - 1);
+            c->name[sizeof c->name - 1] = '\0'; // Null-terminate the string
+        }
+        XFree(ch.res_name);
+        XFree(ch.res_class);
+    } else {
+        // Fallback to WM_NAME if WM_CLASS is not available
+        gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name);
+    }
+
+    if (c->name[0] == '\0') /* hack to mark broken clients */
+        strcpy(c->name, broken);
 }
 
 void updateicon(Client *c) {
