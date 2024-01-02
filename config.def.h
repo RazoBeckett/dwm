@@ -47,8 +47,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
+	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
 };
 
 /* layout(s) */
@@ -86,8 +86,6 @@ static const char *brdowncmd[]	   = { "/home/razobeckett/.config/suckless/dwm/sc
 static const char *upvol[]		   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "up", NULL};
 static const char *downvol[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "down", NULL};
 static const char *mutevol[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "mute", NULL};
-static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
 /* user constants */
 #define TERMINAL "kitty"
@@ -145,7 +143,6 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      					8)
 
 	/* custom shortcuts */
-	{ MODKEY,						XK_grave,					togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,						XK_space,					spawn,      	{.v = rofisearch} },
 	{ MODKEY,						XK_period,					spawn,      	{.v = rofiemoji} },
 	{ MODKEY,						XK_BackSpace,				spawn,  		{.v = powermenu } },
@@ -179,7 +176,7 @@ static const Button buttons[] = {
 	 */
 	{ ClkClientWin,         MODKEY,         Button1,        moveorplace,    {.i = 1} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
