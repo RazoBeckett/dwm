@@ -29,12 +29,14 @@ static const char *colors[][3]      = {
 };
 
 static const char *const autostart[] = {
+	"nitrogen", "--restore", NULL,
 	"slstatus", NULL,
 	"volumeicon", NULL,
 	"nm-applet", "--indicator", NULL,
 	"rog-control-center", NULL,
 	"xfce4-clipman", NULL,
-	"picom", NULL,
+	"picom", "-b", NULL,
+	"touchegg", NULL,
 	NULL /* terminate */
 };
 
@@ -100,9 +102,9 @@ static const char *rofiemoji[]		= { "rofi", "-modi", "emoji", "-show", "emoji", 
 static const Key keys[] = {
 
 	/* FN key functionality */
-	{ 0,							XF86XK_AudioLowerVolume,	spawn,			{.v = downvol } },
-	{ 0,							XF86XK_AudioMute,			spawn,			{.v = mutevol } },
-	{ 0,							XF86XK_AudioRaiseVolume,	spawn,			{.v = upvol } },
+//	{ 0,							XF86XK_AudioLowerVolume,	spawn,			{.v = downvol } },
+//	{ 0,							XF86XK_AudioMute,			spawn,			{.v = mutevol } },
+//	{ 0,							XF86XK_AudioRaiseVolume,	spawn,			{.v = upvol } },
 	{ 0,							XF86XK_MonBrightnessUp,		spawn,			{.v = brupcmd } },
 	{ 0,							XF86XK_MonBrightnessDown,	spawn,			{.v = brdowncmd } },
 
@@ -176,7 +178,7 @@ static const Button buttons[] = {
 	 */
 	{ ClkClientWin,         MODKEY,         Button1,        moveorplace,    {.i = 1} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
+	{ ClkClientWin,         ALTKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
