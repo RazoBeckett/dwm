@@ -91,7 +91,7 @@ static const char *mutevol[]	   = { "/home/razobeckett/.config/suckless/dwm/scri
 
 /* user constants */
 #define TERMINAL "kitty"
-#define FILEMANAGER "nemo"
+#define FILEMANAGER "thunar"
 
 /* user commands */
 static const char *dmenucmd[]		= { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
@@ -102,9 +102,9 @@ static const char *rofiemoji[]		= { "rofi", "-modi", "emoji", "-show", "emoji", 
 static const Key keys[] = {
 
 	/* FN key functionality */
-//	{ 0,							XF86XK_AudioLowerVolume,	spawn,			{.v = downvol } },
-//	{ 0,							XF86XK_AudioMute,			spawn,			{.v = mutevol } },
-//	{ 0,							XF86XK_AudioRaiseVolume,	spawn,			{.v = upvol } },
+	{ 0,							XF86XK_AudioLowerVolume,	spawn,			{.v = downvol } },
+	{ 0,							XF86XK_AudioMute,			    spawn,			{.v = mutevol } },
+	{ 0,							XF86XK_AudioRaiseVolume,	spawn,			{.v = upvol } },
 	{ 0,							XF86XK_MonBrightnessUp,		spawn,			{.v = brupcmd } },
 	{ 0,							XF86XK_MonBrightnessDown,	spawn,			{.v = brdowncmd } },
 
@@ -147,7 +147,7 @@ static const Key keys[] = {
 	/* custom shortcuts */
 	{ MODKEY,						XK_space,					spawn,      	{.v = rofisearch} },
 	{ MODKEY,						XK_period,					spawn,      	{.v = rofiemoji} },
-	{ MODKEY,						XK_BackSpace,				spawn,  		{.v = powermenu } },
+	{ MODKEY,						XK_grave,				spawn,  		{.v = powermenu } },
 	{ MODKEY,						XK_Return,					spawn,          {.v = (const char*[]){ TERMINAL, NULL }} },
 	{ MODKEY,						XK_e,						spawn,			{.v = (const char*[]){ FILEMANAGER, NULL }} },
 	{ MODKEY,						XK_f,						spawn,			{.v = (const char*[]){ "firefox", NULL }} },
