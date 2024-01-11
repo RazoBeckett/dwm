@@ -22,10 +22,11 @@ static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const char col_brown[]       = "#361a09";
 static const char dracula_purple[]  = "#bd93f9";
+static const char reddish[]         = "#700500";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_gray1, dracula_purple },
+	[SchemeSel]  = { col_gray4, col_gray1, reddish },
 };
 
 static const char *const autostart[] = {
@@ -49,7 +50,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
+	{ "Gimp",	    NULL,			NULL,		0,				  1,			 -1 },
 	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
 };
 
@@ -84,7 +85,7 @@ static const Layout layouts[] = {
 /* system commands */
 #include <X11/XF86keysym.h>
 static const char *brupcmd[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "up", NULL };
-static const char *brdowncmd[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "down", NULL };
+static const char *brdowncmd[]   = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "down", NULL };
 static const char *upvol[]		   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "up", NULL};
 static const char *downvol[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "down", NULL};
 static const char *mutevol[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "mute", NULL};
@@ -95,9 +96,10 @@ static const char *mutevol[]	   = { "/home/razobeckett/.config/suckless/dwm/scri
 
 /* user commands */
 static const char *dmenucmd[]		= { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
-static const char *powermenu[]		= { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
-static const char *rofisearch[]		= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
-static const char *rofiemoji[]		= { "rofi", "-modi", "emoji", "-show", "emoji", "-font", "JoyPixels", "12", NULL };
+static const char *powermenu[]  = {"/home/razobeckett/.config/suckless/dwm/scripts/pm.sh", NULL};
+//static const char *powermenu[]		= { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
+static const char *rofisearch[]	= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
+static const char *rofiemoji[]	= { "rofi", "-modi", "emoji", "-show", "emoji", "-font", "JoyPixels", "12", NULL };
 
 static const Key keys[] = {
 
@@ -133,29 +135,29 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, 					focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  					tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, 					tagmon,         {.i = +1 } },
-	{ MODKEY|ALTKEY,				XK_BackSpace,				quit,           {1} }, 
+	{ MODKEY|ALTKEY,				        XK_BackSpace,				quit,           {1} }, 
 	TAGKEYS(                        XK_1,                      					0)
 	TAGKEYS(                        XK_2,                      					1)
 	TAGKEYS(                        XK_3,                      					2)
 	TAGKEYS(                        XK_4,                      					3)
 	TAGKEYS(                        XK_5,                      					4)
 	TAGKEYS(                        XK_6,                      					5)
-	TAGKEYS(                        XK_7,										6)
+	TAGKEYS(                        XK_7,										            6)
 	TAGKEYS(                        XK_8,                      					7)
 	TAGKEYS(                        XK_9,                      					8)
 
 	/* custom shortcuts */
-	{ MODKEY,						XK_space,					spawn,      	{.v = rofisearch} },
-	{ MODKEY,						XK_period,					spawn,      	{.v = rofiemoji} },
-	{ MODKEY,						XK_grave,				spawn,  		{.v = powermenu } },
-	{ MODKEY,						XK_Return,					spawn,          {.v = (const char*[]){ TERMINAL, NULL }} },
-	{ MODKEY,						XK_e,						spawn,			{.v = (const char*[]){ FILEMANAGER, NULL }} },
-	{ MODKEY,						XK_f,						spawn,			{.v = (const char*[]){ "firefox", NULL }} },
-	{ MODKEY,						XK_b,						spawn,			{.v = (const char*[]){ "brave", NULL }} },
-	{ MODKEY,						XK_w,						spawn,          {.v = (const char*[]){ "whatsapp-for-linux", NULL }} },
-	{ MODKEY,						XK_v,						spawn,	   		{.v = (const char*[]){ "xfce4-popup-clipman", NULL }} },
-	{ MODKEY|ShiftMask,				XK_s,						spawn,	   		{.v = (const char*[]){ "flameshot", "gui", NULL }} },
-	{ MODKEY,						XK_l,						spawn,          SHCMD("dm-tool lock") },
+  { MODKEY,						XK_space,			  spawn,      	{.v = rofisearch} },
+  { MODKEY,						XK_period,			spawn,      	{.v = rofiemoji} },
+  { MODKEY,						XK_grave,				spawn,  		  {.v = powermenu } },
+  { MODKEY,						XK_Return,			spawn,        {.v = (const char*[]){ TERMINAL, NULL }} },
+  { MODKEY,						XK_e,						spawn,			  {.v = (const char*[]){ FILEMANAGER, NULL }} },
+  { MODKEY,						XK_f,						spawn,			  {.v = (const char*[]){ "firefox", NULL }} },
+  { MODKEY,						XK_b,						spawn,			  {.v = (const char*[]){ "brave", NULL }} },
+  { MODKEY,						XK_w,						spawn,        {.v = (const char*[]){ "whatsapp-for-linux", NULL }} },
+  { MODKEY,						XK_v,						spawn,	   		{.v = (const char*[]){ "xfce4-popup-clipman", NULL }} },
+  { MODKEY|ShiftMask,	XK_s,			      spawn,	   		{.v = (const char*[]){ "flameshot", "gui", NULL }} },
+  { MODKEY,						XK_l,						spawn,        SHCMD("dm-tool lock") },
 };
 
 /* button definitions */
