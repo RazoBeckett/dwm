@@ -13,7 +13,7 @@ static const int showsystray  = 1;        /* 0 means no systray */
 static const int showbar      = 1;        /* 0 means no bar */
 static const int topbar       = 1;        /* 0 means bottom bar */
 static const char *fonts[]    = { "JetBrains Mono Nerd Font:weight=bold:size=11:antialias=true:hinting=true" };
-static const char dmenufont[] = "JetBrains Mono Nerd Font:weight=bold:size=11:antialias=true:hinting=true"; 
+static const char dmenufont[] = "JetBrains Mono Nerd Font:weight=bold:size=12:antialias=true:hinting=true"; 
 
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -22,20 +22,21 @@ static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const char col_brown[]       = "#361a09";
 static const char dracula_purple[]  = "#bd93f9";
+static const char dracula_green[]   = "#54f37f";
 static const char reddish[]         = "#700500";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_gray1, reddish },
+	[SchemeSel]  = { col_gray4, col_gray1, dracula_green },
 };
 
 static const char *const autostart[] = {
 	"nitrogen", "--restore", NULL,
 	"slstatus", NULL,
-	"volumeicon", NULL,
-	"nm-applet", "--indicator", NULL,
-	"rog-control-center", NULL,
 	"xfce4-clipman", NULL,
+	"nm-applet", "--indicator", NULL,
+	"volumeicon", NULL,
+	"rog-control-center", NULL,
 	"picom", "-b", NULL,
 	"touchegg", NULL,
 	NULL /* terminate */
@@ -95,7 +96,7 @@ static const char *mutevol[]	   = { "/home/razobeckett/.config/suckless/dwm/scri
 #define FILEMANAGER "thunar"
 
 /* user commands */
-static const char *dmenucmd[]		= { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
+static const char *dmenucmd[]		= { "dmenu_run", "-i", "-c", "-l", "7", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
 static const char *powermenu[]  = {"/home/razobeckett/.config/suckless/dwm/scripts/pm.sh", NULL};
 //static const char *powermenu[]		= { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
 static const char *rofisearch[]	= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
@@ -111,7 +112,7 @@ static const Key keys[] = {
 	{ 0,							XF86XK_MonBrightnessDown,	spawn,			{.v = brdowncmd } },
 
 	/* modifier                     key        					function        argument */
-	{ MODKEY,                       XK_p,      					spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_p,      					spawn,          {.v = rofisearch } },
 	{ MODKEY|ALTKEY,                XK_b,      					togglebar,      {0} },
 	{ ALTKEY|ShiftMask,           	XK_h,      					rotatestack,    {.i = +1 } },
 	{ ALTKEY|ShiftMask,           	XK_l,      					rotatestack,    {.i = -1 } },
@@ -147,7 +148,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      					8)
 
 	/* custom shortcuts */
-  { MODKEY,						XK_space,			  spawn,      	{.v = rofisearch} },
+  { MODKEY,						XK_space,			  spawn,      	{.v = dmenucmd } },
   { MODKEY,						XK_period,			spawn,      	{.v = rofiemoji} },
   { MODKEY,						XK_grave,				spawn,  		  {.v = powermenu } },
   { MODKEY,						XK_Return,			spawn,        {.v = (const char*[]){ TERMINAL, NULL }} },
