@@ -56,7 +56,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact		  = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact		      = 0.55; /* factor of master area size [0.05..0.95] */
 static const int   nmaster        = 1;    /* number of clients in master area */
 static const int   resizehints	  = 0;    /* 1 means respect size hints in tiled resizals */
 static const int   lockfullscreen = 1;	  /* 1 will force focus on the fullscreen window */
@@ -96,7 +96,7 @@ static const char *mutevol[]	   = { "/home/razobeckett/.config/suckless/dwm/scri
 #define FILEMANAGER "thunar"
 
 /* user commands */
-static const char *dmenucmd[]		= { "dmenu_run", "-i", "-c", "-l", "7", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
+static const char *dmenucmd[]		= { "dmenu_run", "-c", "-l", "7", "-fn", dmenufont, NULL }; 
 static const char *powermenu[]  = {"/home/razobeckett/.config/suckless/dwm/scripts/pm.sh", NULL};
 //static const char *powermenu[]		= { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
 static const char *rofisearch[]	= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
@@ -159,6 +159,7 @@ static const Key keys[] = {
   { MODKEY,						XK_v,						spawn,	   		{.v = (const char*[]){ "xfce4-popup-clipman", NULL }} },
   { MODKEY|ShiftMask,	XK_s,			      spawn,	   		{.v = (const char*[]){ "flameshot", "gui", NULL }} },
   { MODKEY,						XK_l,						spawn,        SHCMD("dm-tool lock") },
+  { MODKEY|ShiftMask,	XK_l,						spawn,        SHCMD("xrdb -load ~/.config/Xresources") },
 };
 
 /* button definitions */
