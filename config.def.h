@@ -85,11 +85,11 @@ static const Layout layouts[] = {
 /* commands */
 /* system commands */
 #include <X11/XF86keysym.h>
-static const char *brupcmd[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "up", NULL };
-static const char *brdowncmd[]   = { "/home/razobeckett/.config/suckless/dwm/scripts/brightnessnotifications.sh", "down", NULL };
-static const char *upvol[]		   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "up", NULL};
-static const char *downvol[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "down", NULL};
-static const char *mutevol[]	   = { "/home/razobeckett/.config/suckless/dwm/scripts/volumenotifications.sh", "mute", NULL};
+static const char *brupcmd[]	   = { "brightification", "up", NULL };
+static const char *brdowncmd[]   = { "brightification", "down", NULL };
+static const char *upvol[]		   = { "volufication", "up", NULL};
+static const char *downvol[]	   = { "volufication", "down", NULL};
+static const char *mutevol[]	   = { "volufication", "mute", NULL};
 
 /* user constants */
 #define TERMINAL "kitty"
@@ -97,7 +97,7 @@ static const char *mutevol[]	   = { "/home/razobeckett/.config/suckless/dwm/scri
 
 /* user commands */
 static const char *dmenucmd[]		= { "dmenu_run", "-c", "-l", "7", "-fn", dmenufont, NULL }; 
-static const char *powermenu[]  = {"/home/razobeckett/.config/suckless/dwm/scripts/pm.sh", NULL};
+static const char *powermenu[]  = {"pm", NULL};
 //static const char *powermenu[]		= { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
 static const char *rofisearch[]	= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
 static const char *rofiemoji[]	= { "rofi", "-modi", "emoji", "-show", "emoji", "-font", "JoyPixels", "12", NULL };
