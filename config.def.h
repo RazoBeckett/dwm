@@ -43,7 +43,7 @@ static const char *const autostart[] = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -92,7 +92,7 @@ static const char *downvol[]	   = { "volufication", "down", NULL};
 static const char *mutevol[]	   = { "volufication", "mute", NULL};
 
 /* user constants */
-#define TERMINAL "kitty"
+#define TERMINAL "alacritty"
 #define FILEMANAGER "thunar"
 
 /* user commands */
@@ -146,6 +146,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,										            6)
 	TAGKEYS(                        XK_8,                      					7)
 	TAGKEYS(                        XK_9,                      					8)
+	TAGKEYS(                        XK_0,                      					9)
 
 	/* custom shortcuts */
   { MODKEY,						XK_space,			  spawn,      	{.v = dmenucmd } },
