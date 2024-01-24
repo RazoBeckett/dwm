@@ -156,6 +156,7 @@ static const Key keys[] = {
   { MODKEY,						XK_e,						spawn,			  {.v = (const char*[]){ FILEMANAGER, NULL }} },
   { MODKEY,						XK_f,						spawn,			  {.v = (const char*[]){ "firefox", NULL }} },
   { MODKEY,						XK_b,						spawn,			  {.v = (const char*[]){ "brave", NULL }} },
+  { MODKEY,						XK_n,						spawn,			  {.v = (const char*[]){ "nitrogen", NULL }} },
   { MODKEY,						XK_w,						spawn,        {.v = (const char*[]){ "whatsapp-for-linux", NULL }} },
   { MODKEY,						XK_v,						spawn,	   		{.v = (const char*[]){ "xfce4-popup-clipman", NULL }} },
   { MODKEY|ShiftMask,	XK_s,			      spawn,	   		{.v = (const char*[]){ "flameshot", "gui", NULL }} },
