@@ -93,7 +93,7 @@ static const char *mutevol[]	   = { "volufication", "mute", NULL};
 
 /* user constants */
 #define TERMINAL "alacritty"
-#define FILEMANAGER "thunar"
+#define FILEMANAGER "pcmanfm"
 
 /* user commands */
 static const char *dmenucmd[]		= { "dmenu_run", "-c", "-l", "7", "-fn", dmenufont, NULL }; 
