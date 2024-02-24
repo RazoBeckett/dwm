@@ -78,26 +78,26 @@ static const Layout layouts[] = {
 	{ ALTKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define ICONSIZE	20					/* icon size */
+#define ICONSIZE 20					/* icon size */
 #define ICONSPACING 8					/* space between icon and title */
 #define SHCMD(cmd)	{ .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
 /* system commands */
 #include <X11/XF86keysym.h>
-static const char *brupcmd[]	   = { "brightification", "up", NULL };
-static const char *brdowncmd[]   = { "brightification", "down", NULL };
-static const char *upvol[]		   = { "volufication", "up", NULL};
-static const char *downvol[]	   = { "volufication", "down", NULL};
-static const char *mutevol[]	   = { "volufication", "mute", NULL};
+static const char *brupcmd[]	   = { "/home/razobeckett/.local/bin/brightification", "up", NULL };
+static const char *brdowncmd[]   = { "/home/razobeckett/.local/bin/brightification", "down", NULL };
+static const char *upvol[]		   = { "/home/razobeckett/.local/bin/volufication", "up", NULL};
+static const char *downvol[]	   = { "/home/razobeckett/.local/bin/volufication", "down", NULL};
+static const char *mutevol[]	   = { "/home/razobeckett/.local/bin/volufication", "mute", NULL};
 
 /* user constants */
 #define TERMINAL "alacritty"
 #define FILEMANAGER "pcmanfm"
 
 /* user commands */
-static const char *dmenucmd[]		= { "dmenu_run", "-c", "-l", "7", "-fn", dmenufont, NULL }; 
-static const char *powermenu[]  = {"pm", NULL};
+static const char *dmenucmd[]	= { "dmenu_run", "-fn", dmenufont, NULL }; 
+static const char *powermenu[]  = {"/home/razobeckett/.local/bin/pm", NULL};
 //static const char *powermenu[]		= { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
 static const char *rofisearch[]	= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
 static const char *rofiemoji[]	= { "rofi", "-modi", "emoji", "-show", "emoji", "-font", "JoyPixels", "12", NULL };
