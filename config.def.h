@@ -85,11 +85,11 @@ static const Layout layouts[] = {
 /* commands */
 /* system commands */
 #include <X11/XF86keysym.h>
-static const char *brupcmd[]	   = { "/home/razobeckett/.local/bin/brightification", "up", NULL };
-static const char *brdowncmd[]   = { "/home/razobeckett/.local/bin/brightification", "down", NULL };
-static const char *upvol[]		   = { "/home/razobeckett/.local/bin/volufication", "up", NULL};
-static const char *downvol[]	   = { "/home/razobeckett/.local/bin/volufication", "down", NULL};
-static const char *mutevol[]	   = { "/home/razobeckett/.local/bin/volufication", "mute", NULL};
+static const char *brupcmd[]	= { "brightnessctl", "set","+5%", NULL};
+static const char *brdowncmd[]	= { "brightnessctl", "set","5%-", NULL};
+static const char *upvol[]	= { "wpctl","set-volume", "@DEFAULT_AUDIO_SINK@", "5%+", NULL };
+static const char *downvol[]	= { "wpctl","set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
+static const char *mutevol[]	= { "wpctl","set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
 
 /* user constants */
 #define TERMINAL "alacritty"
