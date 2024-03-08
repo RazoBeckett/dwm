@@ -36,7 +36,7 @@ static const char *const autostart[] = {
 	"xfce4-clipman", NULL,
 	"nm-applet", "--indicator", NULL,
 	"volumeicon", NULL,
-	"rog-control-center", NULL,
+//	"rog-control-center", NULL,
 	"picom", "-b", NULL,
 	"touchegg", NULL,
 	NULL /* terminate */
@@ -45,18 +45,10 @@ static const char *const autostart[] = {
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
 
-static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",	    NULL,			NULL,		0,				  1,			 -1 },
-	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
-};
+#include "apprules.h"
 
 /* layout(s) */
-static const float mfact		      = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact	= 0.55; /* factor of master area size [0.05..0.95] */
 static const int   nmaster        = 1;    /* number of clients in master area */
 static const int   resizehints	  = 0;    /* 1 means respect size hints in tiled resizals */
 static const int   lockfullscreen = 1;	  /* 1 will force focus on the fullscreen window */
