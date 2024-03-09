@@ -85,7 +85,7 @@ static const char *mutevol[]	= { "wpctl","set-mute", "@DEFAULT_AUDIO_SINK@", "to
 
 /* user constants */
 #define TERMINAL "alacritty"
-#define FILEMANAGER "pcmanfm"
+#define FILEMANAGER "nautilus"
 
 /* user commands */
 static const char *dmenucmd[]	= { "dmenu_run", "-fn", dmenufont, NULL }; 

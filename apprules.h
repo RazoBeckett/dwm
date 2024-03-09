@@ -8,5 +8,6 @@ static const Rule rules[] = {
     {"firefox", NULL, NULL, 2, 0, -1},
     {"pcmanfm", NULL, NULL, 1 << 2, 0, -1},	// pcmanfm on 3rd workspace
     {"Pcmanfm", NULL, NULL, 1 << 2, 0, -1},	// Pcmanfm on 3rd workspace
+    {"org.gnome.Nautilus", NULL, NULL, 1 << 2, 0, -1},	// Nautilus on 3rd workspace
     {"obsidian", NULL, NULL, 1 << 8, 0, -1},	// obsidian on 9th workspace
 };
