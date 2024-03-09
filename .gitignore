@@ -1,5 +1,6 @@
 config.h
-dwm
+^dwm$
 *.o
 *.rej
 *.orig
+^slstatus$
