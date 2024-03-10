@@ -31,15 +31,14 @@ static const char *colors[][3]      = {
 };
 
 static const char *const autostart[] = {
+	// "rog-control-center", NULL, // only for asus rog laptops
 	"nitrogen", "--restore", NULL,
 	"slstatus", NULL,
 	"xfce4-clipman", NULL,
 	"nm-applet", "--indicator", NULL,
 	"volumeicon", NULL,
-	// "rog-control-center", NULL, // only for asus rog laptops
 	"picom", "-b", NULL,
 	"touchegg", NULL,
-	"/bin/sh", "-c", "~/Developer/Dev/CodeOn/shell-proj/wallpaperengie.sh", NULL,
 	NULL /* terminate */
 };
 
@@ -79,7 +78,7 @@ static const Layout layouts[] = {
 /* user constants */
 #define TERMINAL "alacritty"
 #define FILEMANAGER "nautilus"
-#define POWERMENU SHCMD("/home/razobeckett/.local/bin/pm")
+#define POWERMENU SHCMD("~/.local/bin/pm")
 
 /* user commands */
 static const char *dmenucmd[]	= { "dmenu_run", "-fn", dmenufont, NULL }; 
@@ -91,9 +90,11 @@ static const Key keys[] = {
 	/* FN key functionality */
 	{ 0,	XF86XK_AudioLowerVolume,	spawn,		SHCMD("~/.local/bin/volufication down") },
 	{ 0,	XF86XK_AudioMute,		spawn,		SHCMD("~/.local/bin/volufication mute") },
+	{ 0,	XF86XK_AudioMicMute,		spawn,		SHCMD("~/.local/bin/volufication muteMic") },
 	{ 0,	XF86XK_AudioRaiseVolume,	spawn,		SHCMD("~/.local/bin/volufication up") },
 	{ 0,	XF86XK_MonBrightnessUp,		spawn,		SHCMD("~/.local/bin/brightification up") },
 	{ 0,	XF86XK_MonBrightnessDown,	spawn,		SHCMD("~/.local/bin/brightification down") },
+	{ 0,	XF86XK_TouchpadToggle,		spawn,		SHCMD("~/.local/bin/touchpad toggle") },
 
 	/* modifier                     key        		function        argument */
 	{ MODKEY,			XK_p,      		spawn,          {.v = rofisearch } },
