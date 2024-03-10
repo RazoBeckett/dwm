@@ -36,9 +36,10 @@ static const char *const autostart[] = {
 	"xfce4-clipman", NULL,
 	"nm-applet", "--indicator", NULL,
 	"volumeicon", NULL,
-//	"rog-control-center", NULL,
+	// "rog-control-center", NULL, // only for asus rog laptops
 	"picom", "-b", NULL,
 	"touchegg", NULL,
+	"/bin/sh", "-c", "~/Developer/Dev/CodeOn/shell-proj/wallpaperengie.sh", NULL,
 	NULL /* terminate */
 };
 
@@ -74,86 +75,75 @@ static const Layout layouts[] = {
 #define ICONSPACING 8					/* space between icon and title */
 #define SHCMD(cmd)	{ .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-/* commands */
-/* system commands */
 #include <X11/XF86keysym.h>
-static const char *brupcmd[]	= { "brightnessctl", "set","+5%", NULL};
-static const char *brdowncmd[]	= { "brightnessctl", "set","5%-", NULL};
-static const char *upvol[]	= { "wpctl","set-volume", "@DEFAULT_AUDIO_SINK@", "5%+", NULL };
-static const char *downvol[]	= { "wpctl","set-volume", "@DEFAULT_AUDIO_SINK@", "5%-", NULL };
-static const char *mutevol[]	= { "wpctl","set-mute", "@DEFAULT_AUDIO_SINK@", "toggle", NULL };
-
 /* user constants */
 #define TERMINAL "alacritty"
 #define FILEMANAGER "nautilus"
+#define POWERMENU SHCMD("/home/razobeckett/.local/bin/pm")
 
 /* user commands */
 static const char *dmenucmd[]	= { "dmenu_run", "-fn", dmenufont, NULL }; 
-static const char *powermenu[]  = {"/home/razobeckett/.local/bin/pm", NULL};
-//static const char *powermenu[]		= { "rofi", "-show", "power-menu", "-modi","power-menu:/home/razobeckett/.local/bin/rofi-power-menu", NULL };
 static const char *rofisearch[]	= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
 static const char *rofiemoji[]	= { "rofi", "-modi", "emoji", "-show", "emoji", "-font", "JoyPixels", "12", NULL };
 
 static const Key keys[] = {
 
 	/* FN key functionality */
-	{ 0,							XF86XK_AudioLowerVolume,	spawn,			{.v = downvol } },
-	{ 0,							XF86XK_AudioMute,			    spawn,			{.v = mutevol } },
-	{ 0,							XF86XK_AudioRaiseVolume,	spawn,			{.v = upvol } },
-	{ 0,							XF86XK_MonBrightnessUp,		spawn,			{.v = brupcmd } },
-	{ 0,							XF86XK_MonBrightnessDown,	spawn,			{.v = brdowncmd } },
+	{ 0,	XF86XK_AudioLowerVolume,	spawn,		SHCMD("~/.local/bin/volufication down") },
+	{ 0,	XF86XK_AudioMute,		spawn,		SHCMD("~/.local/bin/volufication mute") },
+	{ 0,	XF86XK_AudioRaiseVolume,	spawn,		SHCMD("~/.local/bin/volufication up") },
+	{ 0,	XF86XK_MonBrightnessUp,		spawn,		SHCMD("~/.local/bin/brightification up") },
+	{ 0,	XF86XK_MonBrightnessDown,	spawn,		SHCMD("~/.local/bin/brightification down") },
 
-	/* modifier                     key        					function        argument */
-	{ MODKEY,                       XK_p,      					spawn,          {.v = rofisearch } },
-	{ MODKEY|ALTKEY,                XK_b,      					togglebar,      {0} },
-	{ ALTKEY|ShiftMask,           	XK_h,      					rotatestack,    {.i = +1 } },
-	{ ALTKEY|ShiftMask,           	XK_l,      					rotatestack,    {.i = -1 } },
-	{ ALTKEY,                     	XK_h,      					focusstack,     {.i = +1 } },
-	{ ALTKEY,                     	XK_l,      					focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      					incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      					incnmaster,     {.i = -1 } },
-	{ ALTKEY,                     	XK_j,      					setmfact,       {.f = -0.05} },
-	{ ALTKEY,                     	XK_k,      					setmfact,       {.f = +0.05} },
-	{ ALTKEY,                     	XK_Return, 					zoom,           {0} },
-	{ ALTKEY,                     	XK_Tab,    					view,           {0} },
-	{ ALTKEY,                     	XK_q,      					killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_t,      					setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ShiftMask,             XK_f,      					setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ShiftMask,             XK_m,      					setlayout,      {.v = &layouts[2]} },
-	/*{ MODKEY,                       XK_space,  				  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  					togglefloating, {0} },*/
-	{ MODKEY,                       XK_0,      					view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      					tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  					focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, 					focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  					tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, 					tagmon,         {.i = +1 } },
-	{ MODKEY|ALTKEY,				        XK_BackSpace,				quit,           {1} }, 
-	TAGKEYS(                        XK_1,                      					0)
-	TAGKEYS(                        XK_2,                      					1)
-	TAGKEYS(                        XK_3,                      					2)
-	TAGKEYS(                        XK_4,                      					3)
-	TAGKEYS(                        XK_5,                      					4)
-	TAGKEYS(                        XK_6,                      					5)
-	TAGKEYS(                        XK_7,										            6)
-	TAGKEYS(                        XK_8,                      					7)
-	TAGKEYS(                        XK_9,                      					8)
-	TAGKEYS(                        XK_0,                      					9)
+	/* modifier                     key        		function        argument */
+	{ MODKEY,			XK_p,      		spawn,          {.v = rofisearch } },
+	{ MODKEY|ALTKEY,		XK_b,      		togglebar,      {0} },
+	{ ALTKEY|ShiftMask,		XK_h,      		rotatestack,    {.i = +1 } },
+	{ ALTKEY|ShiftMask,		XK_l,      		rotatestack,    {.i = -1 } },
+	{ ALTKEY,			XK_h,      		focusstack,     {.i = +1 } },
+	{ ALTKEY,			XK_l,      		focusstack,     {.i = -1 } },
+	{ MODKEY,			XK_i,      		incnmaster,     {.i = +1 } },
+	{ MODKEY,			XK_d,      		incnmaster,     {.i = -1 } },
+	{ ALTKEY,			XK_j,      		setmfact,       {.f = -0.05} },
+	{ ALTKEY,			XK_k,      		setmfact,       {.f = +0.05} },
+	{ ALTKEY,			XK_Return, 		zoom,           {0} },
+	{ ALTKEY,			XK_Tab,    		view,           {0} },
+	{ ALTKEY,			XK_q,      		killclient,     {0} },
+	{ MODKEY|ShiftMask,		XK_t,      		setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ShiftMask,		XK_f,      		setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,		XK_m,      		setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,			XK_0,      		view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,		XK_0,      		tag,            {.ui = ~0 } },
+	{ MODKEY,			XK_comma,  		focusmon,       {.i = -1 } },
+	{ MODKEY,			XK_period, 		focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,		XK_comma,  		tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,		XK_period, 		tagmon,         {.i = +1 } },
+	{ MODKEY|ALTKEY,		XK_BackSpace,		quit,           {1} }, 
+	TAGKEYS(			XK_1,           			0)
+	TAGKEYS(			XK_2,           			1)
+	TAGKEYS(			XK_3,           			2)
+	TAGKEYS(			XK_4,           			3)
+	TAGKEYS(			XK_5,           			4)
+	TAGKEYS(			XK_6,           			5)
+	TAGKEYS(			XK_7,					6)
+	TAGKEYS(			XK_8,           			7)
+	TAGKEYS(			XK_9,           			8)
+	TAGKEYS(			XK_0,           			9)
 
 	/* custom shortcuts */
-  { MODKEY,						XK_space,			  spawn,      	{.v = dmenucmd } },
-  { MODKEY,						XK_period,			spawn,      	{.v = rofiemoji} },
-  { MODKEY,						XK_grave,				spawn,  		  {.v = powermenu } },
-  { MODKEY,						XK_Return,			spawn,        {.v = (const char*[]){ TERMINAL, NULL }} },
-  { MODKEY,						XK_e,						spawn,			  {.v = (const char*[]){ FILEMANAGER, NULL }} },
-  { MODKEY,						XK_f,						spawn,			  {.v = (const char*[]){ "firefox", NULL }} },
-  { MODKEY,						XK_b,						spawn,			  {.v = (const char*[]){ "brave", NULL }} },
-  { MODKEY,						XK_n,						spawn,			  {.v = (const char*[]){ "nitrogen", NULL }} },
-  { MODKEY,						XK_w,						spawn,        {.v = (const char*[]){ "whatsapp-for-linux", NULL }} },
-  { MODKEY,						XK_v,						spawn,	   		{.v = (const char*[]){ "xfce4-popup-clipman", NULL }} },
-  { MODKEY|ShiftMask,	XK_s,			      spawn,	   		{.v = (const char*[]){ "flameshot", "gui", NULL }} },
-  { MODKEY,						XK_l,						spawn,        SHCMD("dm-tool lock") },
-  { MODKEY|ShiftMask,	XK_l,						spawn,        SHCMD("xrdb -load ~/.config/Xresources") },
+	{ MODKEY,			XK_space,		spawn,		{.v = dmenucmd } },
+  	{ MODKEY,			XK_period,		spawn,		{.v = rofiemoji} },
+  	{ MODKEY,			XK_grave,		spawn,		POWERMENU },
+  	{ MODKEY,			XK_Return,		spawn,		{.v = (const char*[]){ TERMINAL, NULL }} },
+  	{ MODKEY,			XK_e,			spawn,		{.v = (const char*[]){ FILEMANAGER, NULL }} },
+  	{ MODKEY,			XK_f,			spawn,		{.v = (const char*[]){ "firefox", NULL }} },
+  	{ MODKEY,			XK_b,			spawn,		{.v = (const char*[]){ "brave", NULL }} },
+  	{ MODKEY,			XK_n,			spawn,		{.v = (const char*[]){ "nitrogen", NULL }} },
+  	{ MODKEY,			XK_w,			spawn,		{.v = (const char*[]){ "whatsapp-for-linux", NULL }} },
+  	{ MODKEY,			XK_v,			spawn,		{.v = (const char*[]){ "xfce4-popup-clipman", NULL }} },
+  	{ MODKEY|ShiftMask,		XK_s,			spawn,		{.v = (const char*[]){ "flameshot", "gui", NULL }} },
+  	{ MODKEY,			XK_l,			spawn,		SHCMD("dm-tool lock") },
+  	{ MODKEY|ShiftMask,		XK_l,			spawn,		SHCMD("xrdb -load ~/.config/Xresources") },
 };
 
 /* button definitions */
@@ -163,7 +153,7 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = powermenu } },
+	{ ClkStatusText,        0,              Button2,        spawn,          POWERMENU },
 	/* placemouse options, choose which feels more natural:
 	 *    0 - tiled position is relative to mouse cursor
 	 *    1 - tiled postiion is relative to window center
