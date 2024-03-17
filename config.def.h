@@ -79,9 +79,9 @@ static const Layout layouts[] = {
 
 #include <X11/XF86keysym.h>
 /* user constants */
-#define TERMINAL "alacritty"
-#define FILEMANAGER "nautilus"
-#define POWERMENU SHCMD("~/.local/bin/pm")
+#define TERMINAL "wezterm"
+#define FILEMANAGER "pcmanfm"
+#define TOPMENU SHCMD("~/.local/bin/topmenu")
 
 /* user commands */
 static const char *dmenucmd[]	= { "dmenu_run", "-fn", dmenufont, NULL }; 
@@ -138,7 +138,7 @@ static const Key keys[] = {
 	/* custom shortcuts */
 	{ MODKEY,			XK_space,		spawn,		{.v = dmenucmd } },
   	{ MODKEY,			XK_period,		spawn,		{.v = rofiemoji} },
-  	{ MODKEY,			XK_grave,		spawn,		POWERMENU },
+	{ MODKEY,			XK_grave,		spawn,		TOPMENU},
   	{ MODKEY,			XK_Return,		spawn,		{.v = (const char*[]){ TERMINAL, NULL }} },
   	{ MODKEY,			XK_e,			spawn,		{.v = (const char*[]){ FILEMANAGER, NULL }} },
   	{ MODKEY,			XK_f,			spawn,		{.v = (const char*[]){ "firefox", NULL }} },
@@ -158,7 +158,7 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          POWERMENU },
+	{ ClkStatusText,        0,              Button2,        spawn,          TOPMENU },
 	/* placemouse options, choose which feels more natural:
 	 *    0 - tiled position is relative to mouse cursor
 	 *    1 - tiled postiion is relative to window center
