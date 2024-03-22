@@ -2961,22 +2961,49 @@ void updatesystray(void) {
 }
 
 void updatetitle(Client *c) {
-    XClassHint ch = {NULL, NULL};
-    if (XGetClassHint(dpy, c->win, &ch)) {
-        if (ch.res_class) {
-            strncpy(c->name, ch.res_class, sizeof c->name - 1);
-            c->name[sizeof c->name - 1] = '\0'; // Null-terminate the string
-        }
-        XFree(ch.res_name);
-        XFree(ch.res_class);
-    } else {
-        // Fallback to WM_NAME if WM_CLASS is not available
-        gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name);
+  XClassHint ch = {NULL, NULL};
+  if (XGetClassHint(dpy, c->win, &ch)) {
+    if (ch.res_class) {
+      // Find the last occurrence of '.'
+      char *lastDot = strrchr(ch.res_class, '.');
+      if (lastDot) {
+        // Copy the string after the last '.'
+        strncpy(c->name, lastDot + 1, sizeof(c->name) - 1);
+        c->name[sizeof(c->name) - 1] = '\0'; // Null-terminate the string
+      } else {
+        // No '.' found, copy the whole string
+        strncpy(c->name, ch.res_class, sizeof(c->name) - 1);
+        c->name[sizeof(c->name) - 1] = '\0'; // Null-terminate the string
+      }
     }
+    XFree(ch.res_name);
+    XFree(ch.res_class);
+  } else {
+    // Fallback to WM_NAME if WM_CLASS is not available
+    gettextprop(c->win, netatom[NetWMName], c->name, sizeof(c->name));
+  }
 
-    if (c->name[0] == '\0') /* hack to mark broken clients */
-        strcpy(c->name, broken);
+  if (c->name[0] == '\0') /* hack to mark broken clients */
+    strcpy(c->name, broken);
 }
+
+// void updatetitle(Client *c) {
+//     XClassHint ch = {NULL, NULL};
+//     if (XGetClassHint(dpy, c->win, &ch)) {
+//         if (ch.res_class) {
+//             strncpy(c->name, ch.res_class, sizeof c->name - 1);
+//             c->name[sizeof c->name - 1] = '\0'; // Null-terminate the string
+//         }
+//         XFree(ch.res_name);
+//         XFree(ch.res_class);
+//     } else {
+//         // Fallback to WM_NAME if WM_CLASS is not available
+//         gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name);
+//     }
+//
+//     if (c->name[0] == '\0') /* hack to mark broken clients */
+//         strcpy(c->name, broken);
+// }
 
 void updateicon(Client *c) {
   freeicon(c);
