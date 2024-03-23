@@ -39,6 +39,8 @@ static const char *const autostart[] = {
 	"volumeicon", NULL,
 	"picom", "-b", NULL,
 	"touchegg", NULL,
+	"xset", "r", "rate", "210", "40", NULL,
+	"xrdb", "-load", "$HOME/.config/Xresources", NULL,
 	NULL /* terminate */
 };
 
