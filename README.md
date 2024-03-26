@@ -1,26 +1,38 @@
 # DWM (Dynamic Window Manager)
 
-![Preview](https://raw.github.com/razobeckett/dwm/readme/assets/preview.png)
+![Preview](assets/preview.png)
+
 ### User Guide:
+
 - Look for `/* user constants */` in `config.def.h` to set your preferred terminal and file manager for keybinds.
 - Scripts used for specific functionalities are available in my [dotfiles repository](https://github.com/razobeckett/dotfiles), e.g., FN key functionality.
 - Application rules are defined in a separate file called `apprules.h`.
-> **Info:** Remove the `xset` command from the autostart in `config.def.h` to experience normal keyboard speed.
+  > **Info:** Remove the `xset` command from the autostart in `config.def.h` to experience normal keyboard speed.
 
 ### How to install:
--  Arch Linux:
-```
-sudo pacman -S --needed base-devel xorg-server xorg-xinit libx11 libxinerama libxft git vim && \
-	git clone https://github.com/razobeckett/dwm && \
-	cd dwm && sudo make clean install
-```
+
+- Arch Linux:
+
+  ```bash
+  sudo pacman -S --needed base-devel xorg-server xorg-xinit libx11 libxinerama libxft git vim && \
+  	git clone https://github.com/razobeckett/dwm && \
+  	cd dwm && sudo make clean install
+  ```
+
+- TTY:
+  - then put `exec dwm` in `~/xinitrc` at the end on new line
+  - now run `startx`
+- for display manager:
+  - paste [dwm.desktop](dwm.desktop) file in `/usr/share/xsessions/`
+  - restart your display manager or system
 
 ### Keybinds
+
 > **Info:** These are just a few basic keybinds to get started; explore `config.def.h` for more.
 
 | Keybind              | Function                                  |
 | -------------------- | ----------------------------------------- |
-| Space + Return       | Opens the terminal.                       |
+| Super + Return       | Opens the terminal.                       |
 | CTRL + p             | Opens rofi (app search).                  |
 | ALT + Space          | Opens dmenu.                              |
 | ALT + [1..0]         | Switches between tags (workspaces).       |
@@ -28,6 +40,7 @@ sudo pacman -S --needed base-devel xorg-server xorg-xinit libx11 libxinerama lib
 | ALT + SHIFT + L/H    | Moves window right and left respectively. |
 
 ### Addition Utilities used with setup:
+
 - **picom**: Enables effects and animations.
 - **slstatus**: Displays system status and date/time.
 - **rofi**: Facilitates application search.
