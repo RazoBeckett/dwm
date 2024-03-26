@@ -5,7 +5,7 @@
 ### User Guide:
 
 - Look for `/* user constants */` in `config.def.h` to set your preferred terminal and file manager for keybinds.
-- Scripts used for specific functionalities are available in my [dotfiles repository](https://github.com/razobeckett/dotfiles), e.g., FN key functionality.
+- Scripts used for specific functionalities are available in my [dotfiles](https://github.com/RazoBeckett/dotfiles/tree/main/.local/bin) repository, e.g., FN key functionality.
 - Application rules are defined in a separate file called `apprules.h`.
   > **Info:** Remove the `xset` command from the autostart in `config.def.h` to experience normal keyboard speed.
 
