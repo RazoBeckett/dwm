@@ -13,7 +13,8 @@ static const int showsystray  = 1;        /* 0 means no systray */
 static const int showbar      = 1;        /* 0 means no bar */
 static const int topbar       = 1;        /* 0 means bottom bar */
 static const char *fonts[]    = { "JetBrains Mono Nerd Font:weight=bold:size=11:antialias=true:hinting=true" };
-static const char dmenufont[] = "JetBrains Mono Nerd Font:weight=bold:size=12:antialias=true:hinting=true"; 
+//static const char dmenufont[] = "JetBrains Mono Nerd Font:weight=bold:size=12:antialias=true:hinting=true"; 
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -86,7 +87,7 @@ static const Layout layouts[] = {
 #define TOPMENU SHCMD("~/.local/bin/topmenu")
 
 /* user commands */
-static const char *dmenucmd[]	= { "dmenu_run", "-fn", dmenufont, NULL }; 
+static const char *dmenucmd[]	= { "dmenu_run", "-m", dmenumon, "-fn", "JetBrains Mono Nerd Font:weight=bold:size=12:antialias=true:hinting=true", NULL }; 
 static const char *rofisearch[]	= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
 static const char *rofiemoji[]	= { "rofi", "-modi", "emoji", "-show", "emoji", "-font", "JoyPixels", "12", NULL };
 
