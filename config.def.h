@@ -41,7 +41,7 @@ static const char *const autostart[] = {
 	"picom", "-b", NULL,
 	"touchegg", NULL,
 	"xset", "r", "rate", "210", "40", NULL,
-	"xrdb", "-load", "$HOME/.config/Xresources", NULL,
+	"bash", "-c", "xrdb -load $HOME/.config/Xresources", NULL,
 	"/usr/lib/mate-polkit/polkit-mate-authentication-agent-1", NULL,
 	NULL /* terminate */
 };
