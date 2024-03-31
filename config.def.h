@@ -33,11 +33,10 @@ static const char *colors[][3]      = {
 
 static const char *const autostart[] = {
 	// "rog-control-center", NULL, // only for asus rog laptops
+	"bash", "-c", "$HOME/.local/bin/launch_dwmblocks", NULL,
 	"nitrogen", "--restore", NULL,
-	"slstatus", NULL,
 	"xfce4-clipman", NULL,
 	"nm-applet", "--indicator", NULL,
-	"volumeicon", NULL,
 	"picom", "-b", NULL,
 	"touchegg", NULL,
 	"xset", "r", "rate", "210", "40", NULL,
@@ -80,6 +79,7 @@ static const Layout layouts[] = {
 #define ICONSIZE 20					/* icon size */
 #define ICONSPACING 8					/* space between icon and title */
 #define SHCMD(cmd)	{ .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define STATUSBAR "dwmblocks"
 
 #include <X11/XF86keysym.h>
 /* user constants */
@@ -162,7 +162,11 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          TOPMENU },
+	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
+	{ ClkStatusText,        0,              Button2,        sigstatusbar,   {.i = 2} },
+	{ ClkStatusText,        0,              Button3,        sigstatusbar,   {.i = 3} },
+	{ ClkStatusText,        0,              Button4,        sigstatusbar,   {.i = 4} },
+	{ ClkStatusText,        0,              Button5,        sigstatusbar,   {.i = 5} },
 	/* placemouse options, choose which feels more natural:
 	 *    0 - tiled position is relative to mouse cursor
 	 *    1 - tiled postiion is relative to window center
