@@ -19,12 +19,21 @@
   	cd dwm && sudo make clean install
   ```
 
-- TTY:
-  - then put `exec dwm` in `~/xinitrc` at the end on new line
-  - now run `startx`
-- for display manager:
-  - paste [dwm.desktop](dwm.desktop) file in `/usr/share/xsessions/`
-  - restart your display manager or system
+- Ubuntu/Debian:
+
+  ```bash
+  sudo apt install build-essential xorg libx11-dev libxinerama-dev libxft-dev git vim && \
+    git clone https://github.com/razobeckett/dwm && \
+    cd dwm && sudo make clean install
+  ```
+
+- After installation, you can start dwm using:
+  - for Xinit:
+    - put `exec dwm` in `~/.xinitrc` at the end on new line
+    - now run `startx`
+  - for display manager:
+    - paste [dwm.desktop](dwm.desktop) file in `/usr/share/xsessions/`
+    - restart your display manager or system
 
 ### Keybinds
 
@@ -41,6 +50,7 @@
 | ALT + [1..0]         | Switches between tags (workspaces).       |
 | ALT + SHIFT + [1..0] | Moves window between tags (workspaces).   |
 | ALT + SHIFT + L/H    | Moves window right and left respectively. |
+| ALT + Q              | Closes the window.                        |
 
 ### Addition Utilities used with setup:
 

@@ -33,11 +33,10 @@ static const char *colors[][3]      = {
 
 static const char *const autostart[] = {
 	// "rog-control-center", NULL, // only for asus rog laptops
+	"bash", "-c", "$HOME/.local/bin/launch_dwmblocks", NULL,
 	"nitrogen", "--restore", NULL,
-	"slstatus", NULL,
 	"xfce4-clipman", NULL,
 	"nm-applet", "--indicator", NULL,
-	"volumeicon", NULL,
 	"picom", "-b", NULL,
 	"touchegg", NULL,
 	"xset", "r", "rate", "210", "40", NULL,
@@ -80,6 +79,7 @@ static const Layout layouts[] = {
 #define ICONSIZE 20					/* icon size */
 #define ICONSPACING 8					/* space between icon and title */
 #define SHCMD(cmd)	{ .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define STATUSBAR "dwmblocks"
 
 #include <X11/XF86keysym.h>
 /* user constants */
@@ -95,12 +95,14 @@ static const char *rofiemoji[]	= { "rofi", "-modi", "emoji", "-show", "emoji", "
 static const Key keys[] = {
 
 	/* FN key functionality */
-	{ 0,	XF86XK_AudioLowerVolume,	spawn,		SHCMD("~/.local/bin/volufication down") },
-	{ 0,	XF86XK_AudioMute,		spawn,		SHCMD("~/.local/bin/volufication mute") },
-	{ 0,	XF86XK_AudioMicMute,		spawn,		SHCMD("~/.local/bin/volufication muteMic") },
-	{ 0,	XF86XK_AudioRaiseVolume,	spawn,		SHCMD("~/.local/bin/volufication up") },
-	{ 0,	XF86XK_MonBrightnessUp,		spawn,		SHCMD("~/.local/bin/brightification up") },
-	{ 0,	XF86XK_MonBrightnessDown,	spawn,		SHCMD("~/.local/bin/brightification down") },
+	{ 0,	XF86XK_AudioRaiseVolume,	spawn,		SHCMD("~/.local/bin/volufication up && kill -38 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_AudioLowerVolume,	spawn,		SHCMD("~/.local/bin/volufication down && kill -38 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_AudioMute,		spawn,		SHCMD("~/.local/bin/volufication mute && kill -38 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_AudioMicMute,		spawn,		SHCMD("~/.local/bin/volufication muteMic && kill -38 $(pidof dwmblocks)") },
+	/* Brightness FN */
+	{ 0,	XF86XK_MonBrightnessUp,		spawn,		SHCMD("~/.local/bin/brightification up && kill -39 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_MonBrightnessDown,	spawn,		SHCMD("~/.local/bin/brightification down && kill -39 $(pidof dwmblocks)") },
+	/* Touchpad FN */
 	{ 0,	XF86XK_TouchpadToggle,		spawn,		SHCMD("~/.local/bin/touchpad toggle") },
 
 	/* modifier                     key        		function        argument */
@@ -162,7 +164,11 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          TOPMENU },
+	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
+	{ ClkStatusText,        0,              Button2,        sigstatusbar,   {.i = 2} },
+	{ ClkStatusText,        0,              Button3,        sigstatusbar,   {.i = 3} },
+	{ ClkStatusText,        0,              Button4,        sigstatusbar,   {.i = 4} },
+	{ ClkStatusText,        0,              Button5,        sigstatusbar,   {.i = 5} },
 	/* placemouse options, choose which feels more natural:
 	 *    0 - tiled position is relative to mouse cursor
 	 *    1 - tiled postiion is relative to window center
