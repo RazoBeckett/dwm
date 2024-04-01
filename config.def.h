@@ -95,12 +95,14 @@ static const char *rofiemoji[]	= { "rofi", "-modi", "emoji", "-show", "emoji", "
 static const Key keys[] = {
 
 	/* FN key functionality */
-	{ 0,	XF86XK_AudioLowerVolume,	spawn,		SHCMD("~/.local/bin/volufication down") },
-	{ 0,	XF86XK_AudioMute,		spawn,		SHCMD("~/.local/bin/volufication mute") },
-	{ 0,	XF86XK_AudioMicMute,		spawn,		SHCMD("~/.local/bin/volufication muteMic") },
-	{ 0,	XF86XK_AudioRaiseVolume,	spawn,		SHCMD("~/.local/bin/volufication up") },
-	{ 0,	XF86XK_MonBrightnessUp,		spawn,		SHCMD("~/.local/bin/brightification up") },
-	{ 0,	XF86XK_MonBrightnessDown,	spawn,		SHCMD("~/.local/bin/brightification down") },
+	{ 0,	XF86XK_AudioRaiseVolume,	spawn,		SHCMD("~/.local/bin/volufication up && kill -38 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_AudioLowerVolume,	spawn,		SHCMD("~/.local/bin/volufication down && kill -38 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_AudioMute,		spawn,		SHCMD("~/.local/bin/volufication mute && kill -38 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_AudioMicMute,		spawn,		SHCMD("~/.local/bin/volufication muteMic && kill -38 $(pidof dwmblocks)") },
+	/* Brightness FN */
+	{ 0,	XF86XK_MonBrightnessUp,		spawn,		SHCMD("~/.local/bin/brightification up && kill -39 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_MonBrightnessDown,	spawn,		SHCMD("~/.local/bin/brightification down && kill -39 $(pidof dwmblocks)") },
+	/* Touchpad FN */
 	{ 0,	XF86XK_TouchpadToggle,		spawn,		SHCMD("~/.local/bin/touchpad toggle") },
 
 	/* modifier                     key        		function        argument */
