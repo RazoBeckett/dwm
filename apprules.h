@@ -18,4 +18,5 @@ static const Rule rules[] = {
     {"Pcmanfm", NULL, NULL, 1 << 2, 0, -1},	// Pcmanfm on 3rd workspace
     {"org.gnome.Nautilus", NULL, NULL, 1 << 2, 0, -1},	// Nautilus on 3rd workspace
     {"obsidian", NULL, NULL, 1 << 8, 0, -1},	// obsidian on 9th workspace
+    {"amberol", NULL, NULL, 0, 1, -1},  // Allow amberol on any workspace and make it floating
 };

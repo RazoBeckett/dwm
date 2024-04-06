@@ -22,17 +22,20 @@ static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const char col_brown[]       = "#361a09";
-static const char dracula_purple[]  = "#bd93f9";
-static const char dracula_green[]   = "#54f37f";
-static const char reddish[]         = "#700500";
+static const char pink[]            = "#f5bde6";
+static const char dark[]            = "#1d2021";
+static const char red[]             = "#ED8796";
+static const char brightyellow[]    = "#EED49F";
+static const char brightblue[]      = "#8aadf4";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_gray1, dracula_green },
+	/*               fg         bg          border   */
+	[SchemeNorm] = { col_gray3, col_gray1,  col_gray2 },
+	[SchemeSel]  = { brightyellow,       dark,    brightblue },
+	[SchemeTitle] = { pink,     dark,       dark },
 };
 
 static const char *const autostart[] = {
-	// "rog-control-center", NULL, // only for asus rog laptops
+	"rog-control-center", NULL, // only for asus rog laptops
 	"bash", "-c", "$HOME/.local/bin/launch_dwmblocks", NULL,
 	"nitrogen", "--restore", NULL,
 	"xfce4-clipman", NULL,
@@ -84,7 +87,7 @@ static const Layout layouts[] = {
 #include <X11/XF86keysym.h>
 /* user constants */
 #define TERMINAL "wezterm"
-#define FILEMANAGER "pcmanfm"
+#define FILEMANAGER "nautilus"
 #define TOPMENU SHCMD("~/.local/bin/topmenu")
 
 /* user commands */
