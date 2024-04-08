@@ -1102,12 +1102,20 @@ void drawbar(Monitor *m) {
 
   if ((w = m->ww - tw - stw - x) > bh) {
     if (m->sel) {
+      int style;
+      if (titlestyle == 1) {
+        /* fix overflow when window name is bigger than window width*/
+        int mid = (m->ww - (int)TEXTW(m->sel->name)) / 2 - x;
+        style = mid >= lrpad / 2 ? mid : lrpad / 2;
+      } else {
+        style = lrpad / 2;
+      }
       drw_setscheme(drw, scheme[m == selmon ? SchemeTitle : SchemeNorm]);
       drw_text(drw, x, 0, w, bh,
-               lrpad / 2 + (m->sel->icon ? m->sel->icw + ICONSPACING : 0),
+               style + (m->sel->icon ? m->sel->icw + ICONSPACING : 0),
                m->sel->name, 0);
       if (m->sel->icon)
-        drw_pic(drw, x + lrpad / 2, (bh - m->sel->ich) / 2, m->sel->icw,
+        drw_pic(drw, x + style, (bh - m->sel->ich) / 2, m->sel->icw,
                 m->sel->ich, m->sel->icon);
       if (m->sel->isfloating)
         drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
