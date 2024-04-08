@@ -1075,7 +1075,8 @@ void drawbar(Monitor *m) {
 
   /* draw status first so it can be overdrawn by tags later */
   if (m == selmon) { /* status is only drawn on selected monitor */
-    tw = statusw = m->ww + stw - drawstatusbar(m, bh, stext);
+    tw = statusw = m->ww - drawstatusbar(m, bh, stext);
+    statusw += stw;
   }
 
   resizebarwin(m);
