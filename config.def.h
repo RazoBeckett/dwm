@@ -142,6 +142,14 @@ static const Key keys[] = {
 	TAGKEYS(			XK_8,           			7)
 	TAGKEYS(			XK_9,           			8)
 	TAGKEYS(			XK_0,           			9)
+	{ MODKEY,			XK_1,			focusbynum,	{.i = 0} },
+	{ MODKEY,			XK_2,			focusbynum,	{.i = 1} },
+	{ MODKEY,			XK_3,			focusbynum,	{.i = 2} },
+	{ MODKEY,			XK_4,			focusbynum,	{.i = 3} },
+	{ MODKEY,			XK_5,			focusbynum,	{.i = 4} },
+	{ MODKEY,			XK_6,			focusbynum,	{.i = 5} },
+	{ MODKEY,			XK_7,			focusbynum,	{.i = 6} },
+	{ MODKEY,			XK_8,			focusbynum,	{.i = 7} },
 
 	/* custom shortcuts */
 	{ MODKEY,			XK_space,		spawn,		{.v = dmenucmd } },

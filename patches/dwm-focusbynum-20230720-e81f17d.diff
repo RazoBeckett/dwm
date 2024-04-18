@@ -1,0 +1,65 @@
+From a6b3831c14ecec2d6da4cce031f6dada64ac7565 Mon Sep 17 00:00:00 2001
+From: dimarogiv <dirsednet.it@gmail.com>
+Date: Thu, 20 Jul 2023 14:22:32 +0300
+Subject: [PATCH] With this patch you can focus on any of the currently open
+ windows on the current tagset with just one key combination
+
+---
+ config.def.h |  8 ++++++++
+ dwm.c        | 14 ++++++++++++++
+ 2 files changed, 22 insertions(+)
+
+diff --git a/config.def.h b/config.def.h
+index 9efa774..c3718fe 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -94,6 +94,14 @@ static const Key keys[] = {
+ 	TAGKEYS(                        XK_7,                      6)
+ 	TAGKEYS(                        XK_8,                      7)
+ 	TAGKEYS(                        XK_9,                      8)
++	{ MODKEY|ShiftMask,             XK_j,      focusbynum,     {.i = 0} },
++	{ MODKEY|ShiftMask,             XK_k,      focusbynum,     {.i = 1} },
++	{ MODKEY|ShiftMask,             XK_l,      focusbynum,     {.i = 2} },
++	{ MODKEY|ShiftMask,             XK_colon,  focusbynum,     {.i = 3} },
++	{ MODKEY|ShiftMask,             XK_f,      focusbynum,     {.i = 4} },
++	{ MODKEY|ShiftMask,             XK_d,      focusbynum,     {.i = 5} },
++	{ MODKEY|ShiftMask,             XK_s,      focusbynum,     {.i = 6} },
++	{ MODKEY|ShiftMask,             XK_a,      focusbynum,     {.i = 7} },
+ 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+ };
+ 
+diff --git a/dwm.c b/dwm.c
+index f1d86b2..54eb2e2 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -211,6 +211,7 @@ static void tagmon(const Arg *arg);
+ static void tile(Monitor *m);
+ static void togglebar(const Arg *arg);
+ static void togglefloating(const Arg *arg);
++static void focusbynum(const Arg *arg);
+ static void toggletag(const Arg *arg);
+ static void toggleview(const Arg *arg);
+ static void unfocus(Client *c, int setfocus);
+@@ -1735,6 +1736,19 @@ togglefloating(const Arg *arg)
+ 	arrange(selmon);
+ }
+ 
++void
++focusbynum(const Arg *arg)
++{
++	int i;
++	Client *c;
++
++	i = 0;
++	c = nexttiled(selmon->clients);
++
++	for (; c && i < arg->i; c = nexttiled(c->next), i++);
++	focus(c);
++}
++
+ void
+ toggletag(const Arg *arg)
+ {
+-- 
+2.41.0
+
