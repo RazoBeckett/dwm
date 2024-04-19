@@ -12,7 +12,7 @@ static const int showsystray  = 1;        /* 0 means no systray */
 static const int showbar      = 1;        /* 0 means no bar */
 static const int topbar       = 1;        /* 0 means bottom bar */
 static const int titlestyle   = 1;        /* 0: left aligned , 1: center aligned */
-static const char *fonts[]    = { "JetBrains Mono Nerd Font:weight=bold:size=11:antialias=true:hinting=true" };
+static const char *fonts[]    = { "monospace:weight=bold:size=11:antialias=true:hinting=true" };
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 
 static const char col_gray1[]       = "#222222";
@@ -21,29 +21,15 @@ static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const char col_brown[]       = "#361a09";
-static const char pink[]            = "#f5bde6";
-static const char dark[]            = "#1d2021";
-static const char red[]             = "#ED8796";
-static const char brightyellow[]    = "#EED49F";
-static const char brightblue[]      = "#8aadf4";
 static const char *colors[][3]      = {
-	/*               fg         bg          border   */
-	[SchemeNorm] = { col_gray3, col_gray1,  col_gray2 },
-	[SchemeSel]  = { brightyellow,       dark,    brightblue },
-	[SchemeTitle] = { "#FFFFFF",     dark,       dark },
+	/*               fg         bg         border   */
+	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeTitle] = { col_gray4, col_cyan,  col_cyan },
 };
 
 static const char *const autostart[] = {
-	// "rog-control-center", NULL, // only for asus rog laptops
 	"bash", "-c", "$HOME/.local/bin/launch_dwmblocks", NULL,
-	"nitrogen", "--restore", NULL,
-	"xfce4-clipman", NULL,
-	"nm-applet", "--indicator", NULL,
-	"picom", "-b", NULL,
-	"touchegg", NULL,
-	"xset", "r", "rate", "210", "40", NULL,
-	"bash", "-c", "xrdb -load $HOME/.config/Xresources", NULL,
-	"/usr/lib/mate-polkit/polkit-mate-authentication-agent-1", NULL,
 	NULL /* terminate */
 };
 
@@ -53,7 +39,7 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }
 #include "apprules.h"
 
 /* layout(s) */
-static const float mfact	= 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact	  = 0.55; /* factor of master area size [0.05..0.95] */
 static const int   nmaster        = 1;    /* number of clients in master area */
 static const int   resizehints	  = 0;    /* 1 means respect size hints in tiled resizals */
 static const int   lockfullscreen = 1;	  /* 1 will force focus on the fullscreen window */
@@ -84,31 +70,23 @@ static const Layout layouts[] = {
 #define STATUSBAR "dwmblocks"
 
 #include <X11/XF86keysym.h>
-/* user constants */
-#define TERMINAL "wezterm"
-#define FILEMANAGER "pcmanfm"
-#define TOPMENU SHCMD("~/.local/bin/topmenu")
 
 /* user commands */
 static const char *dmenucmd[]	= { "dmenu_run", "-m", dmenumon, "-c", "-l", "7", "-fn", "JetBrains Mono Nerd Font:weight=bold:size=12:antialias=true:hinting=true", NULL }; 
-static const char *rofisearch[]	= { "rofi", "-show", "drun", "-modi", "drun", "-show-icons", "-font", "JetBrainsMono", "Nerd", "Font", "12", NULL };
-static const char *rofiemoji[]	= { "rofi", "-modi", "emoji", "-show", "emoji", "-font", "JoyPixels", "12", NULL };
 
 static const Key keys[] = {
 
 	/* FN key functionality */
-	{ 0,	XF86XK_AudioRaiseVolume,	spawn,		SHCMD("~/.local/bin/volufication up && kill -38 $(pidof dwmblocks)") },
-	{ 0,	XF86XK_AudioLowerVolume,	spawn,		SHCMD("~/.local/bin/volufication down && kill -38 $(pidof dwmblocks)") },
-	{ 0,	XF86XK_AudioMute,		spawn,		SHCMD("~/.local/bin/volufication mute && kill -38 $(pidof dwmblocks)") },
-	{ 0,	XF86XK_AudioMicMute,		spawn,		SHCMD("~/.local/bin/volufication muteMic && kill -38 $(pidof dwmblocks)") },
-	/* Brightness FN */
-	{ 0,	XF86XK_MonBrightnessUp,		spawn,		SHCMD("~/.local/bin/brightification up && kill -39 $(pidof dwmblocks)") },
-	{ 0,	XF86XK_MonBrightnessDown,	spawn,		SHCMD("~/.local/bin/brightification down && kill -39 $(pidof dwmblocks)") },
-	/* Touchpad FN */
-	{ 0,	XF86XK_TouchpadToggle,		spawn,		SHCMD("~/.local/bin/touchpad toggle") },
+	{ 0,	XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && kill -38 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_AudioLowerVolume,	spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% && kill -38 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_AudioMute,		spawn,		SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && kill -38 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_AudioMicMute,		spawn,		SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle && kill -38 $(pidof dwmblocks)") },
+	/* Brightness FN (install brightnessctl)*/
+	{ 0,	XF86XK_MonBrightnessUp,		spawn,		SHCMD("brightnessctl set +5% && kill -39 $(pidof dwmblocks)") },
+	{ 0,	XF86XK_MonBrightnessDown,	spawn,		SHCMD("brightnessctl set 5%- && kill -39 $(pidof dwmblocks)") },
 
 	/* modifier                     key        		function        argument */
-	{ MODKEY,			XK_p,      		spawn,          {.v = rofisearch } },
+	{ MODKEY,			XK_space,		spawn,		{.v = dmenucmd } },
 	{ MODKEY|ALTKEY,		XK_b,      		togglebar,      {0} },
 	{ ALTKEY|ShiftMask,		XK_h,      		rotatestack,    {.i = +1 } },
 	{ ALTKEY|ShiftMask,		XK_l,      		rotatestack,    {.i = -1 } },
@@ -151,20 +129,6 @@ static const Key keys[] = {
 	{ MODKEY,			XK_7,			focusbynum,	{.i = 6} },
 	{ MODKEY,			XK_8,			focusbynum,	{.i = 7} },
 
-	/* custom shortcuts */
-	{ MODKEY,			XK_space,		spawn,		{.v = dmenucmd } },
-  	{ MODKEY,			XK_period,		spawn,		{.v = rofiemoji} },
-	{ MODKEY,			XK_grave,		spawn,		TOPMENU},
-  	{ MODKEY,			XK_Return,		spawn,		{.v = (const char*[]){ TERMINAL, NULL }} },
-  	{ MODKEY,			XK_e,			spawn,		{.v = (const char*[]){ FILEMANAGER, NULL }} },
-  	{ MODKEY,			XK_f,			spawn,		{.v = (const char*[]){ "firefox", NULL }} },
-  	{ MODKEY,			XK_b,			spawn,		{.v = (const char*[]){ "brave", NULL }} },
-  	{ MODKEY,			XK_n,			spawn,		{.v = (const char*[]){ "nitrogen", NULL }} },
-  	{ MODKEY,			XK_w,			spawn,		{.v = (const char*[]){ "whatsapp-for-linux", NULL }} },
-  	{ MODKEY,			XK_v,			spawn,		{.v = (const char*[]){ "xfce4-popup-clipman", NULL }} },
-  	{ MODKEY|ShiftMask,		XK_s,			spawn,		{.v = (const char*[]){ "flameshot", "gui", NULL }} },
-  	{ MODKEY,			XK_l,			spawn,		SHCMD("dm-tool lock") },
-  	{ MODKEY|ShiftMask,		XK_l,			spawn,		SHCMD("xrdb -load ~/.config/Xresources") },
 };
 
 /* button definitions */
