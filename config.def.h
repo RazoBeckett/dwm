@@ -131,6 +131,9 @@ static const Key keys[] = {
 	{ MODKEY,			XK_7,			focusbynum,	{.i = 6} },
 	{ MODKEY,			XK_8,			focusbynum,	{.i = 7} },
 
+	/* custom keybindings */
+	{ MODKEY,			XK_Return,		spawn,		{.v = (const char*[]){ "st", NULL }} },
+
 };
 
 /* button definitions */
