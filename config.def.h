@@ -101,6 +101,7 @@ static const Key keys[] = {
 	{ ALTKEY,			XK_q,      		killclient,     {0} },
 	{ ALTKEY|ControlMask,		XK_q,			killclient,		{.ui = 1} },  // kill unselect
 	{ ALTKEY|ShiftMask|ControlMask,	XK_q,			killclient,			{.ui = 2} },  // killall
+	{ ALTKEY|ShiftMask,		XK_space,		togglefloating, {0} },
 	{ MODKEY|ShiftMask,		XK_t,      		setlayout,      {.v = &layouts[0]} },
 	{ MODKEY|ShiftMask,		XK_f,      		setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,		XK_m,      		setlayout,      {.v = &layouts[2]} },
@@ -158,8 +159,8 @@ static const Button buttons[] = {
 	 * to control these separately (i.e. to retain the feature to move a tiled window
 	 * into a floating position).
 	 */
-	{ ClkClientWin,         MODKEY,         Button1,        moveorplace,    {.i = 1} },
-	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
+	{ ClkClientWin,         ALTKEY,         Button1,        moveorplace,    {.i = 1} },
+	{ ClkClientWin,         ALTKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         ALTKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
