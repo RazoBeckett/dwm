@@ -35,10 +35,13 @@
   ```
 
   - Compile and install:
-    ```bash
-    make clean install
-    ```
-    > NOTE: If you are not a root user, you can use `doas` or `sudo` to run the command.
+
+  ```bash
+  make clean install
+  ```
+
+> [!IMPORTANT]
+> If you are not a root user, you can use `doas` or `sudo` to run the command.
 
 - After compiling, you can start the window manager using the following methods:
   - for Xinit:
@@ -50,7 +53,8 @@
 
 ### Keybinds
 
-> **Info:** These are just a few basic keybinds to get started; you can always add and modify them in `config.h`.
+> [!NOTE]
+> These are just a few basic keybinds to get started; you can always add and modify them in `config.h`.
 
 | Keybind              | Function                                  |
 | -------------------- | ----------------------------------------- |
@@ -63,7 +67,8 @@
 
 ### Addition Utilities used with setup:
 
-- **picom**: Enables effects and animations.
+- [**picom**](https://github.com/yshui/picom): Enables effects and animations.
 - [**dwmblocks-async**](https://github.com/UtkarshVerma/dwmblocks-async): Displays system status and date/time.
 
-> **Caution:** This has been heavily modified; if you wish to apply any patches, it is recommended to do so manually.
+> [!CAUTION]
+> This Build of DWM been heavily modified; if you wish to apply any patches, it is recommended to do so manually.
