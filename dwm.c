@@ -2040,7 +2040,8 @@ void resizeclient(Client *c, int x, int y, int w, int h) {
     if (c->mon->lt[c->mon->sellt]->arrange == monocle || n == 1) {
       gapoffset = 0;
       gapincr = -2 * borderpx;
-      wc.border_width = 0;
+      if (onlyclient == 0 || c->mon->lt[c->mon->sellt]->arrange == monocle)
+        wc.border_width = 0;
     } else {
       gapoffset = gappx;
       gapincr = 2 * gappx;
