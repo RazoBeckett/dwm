@@ -1766,7 +1766,6 @@ void placemouse(const Arg *arg) {
   Monitor *m;
   XEvent ev;
   XWindowAttributes wa;
-  Time lasttime = 0;
   int attachmode, prevattachmode;
   attachmode = prevattachmode = -1;
 
@@ -1804,10 +1803,6 @@ void placemouse(const Arg *arg) {
       handler[ev.type](&ev);
       break;
     case MotionNotify:
-      if ((ev.xmotion.time - lasttime) <= (1000 / 1000))
-        continue;
-      lasttime = ev.xmotion.time;
-
       nx = ocx + (ev.xmotion.x - x);
       ny = ocy + (ev.xmotion.y - y);
 
