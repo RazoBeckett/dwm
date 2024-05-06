@@ -1675,7 +1675,7 @@ void monocle(Monitor *m) {
   if (n > 0) /* override layout symbol */
     snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
   for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
-    resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
+    resize(c, m->wx + fgappx, m->wy + fgappx, m->ww - 2 * c->bw - 2 * fgappx, m->wh - 2 * c->bw - 2 * fgappx, 0);
 }
 
 void motionnotify(XEvent *e) {
@@ -1732,11 +1732,11 @@ void movemouse(const Arg *arg) {
       ny = ocy + (ev.xmotion.y - y);
       if (abs(selmon->wx - nx) < snap)
         nx = selmon->wx;
-      else if (abs((selmon->wx + selmon->ww) - (nx + WIDTH(c))) < snap)
+      else if (((selmon->wx + selmon->ww) - (nx + WIDTH(c))) < snap)
         nx = selmon->wx + selmon->ww - WIDTH(c);
       if (abs(selmon->wy - ny) < snap)
         ny = selmon->wy;
-      else if (abs((selmon->wy + selmon->wh) - (ny + HEIGHT(c))) < snap)
+      else if (((selmon->wy + selmon->wh) - (ny + HEIGHT(c))) < snap)
         ny = selmon->wy + selmon->wh - HEIGHT(c);
       if (!c->isfloating && selmon->lt[selmon->sellt]->arrange &&
           (abs(nx - c->x) > snap || abs(ny - c->y) > snap))
@@ -1788,8 +1788,8 @@ void placemouse(const Arg *arg) {
   ocx = wa.x;
   ocy = wa.y;
 
-  if (arg->i == 2) // warp cursor to client center
-    XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, WIDTH(c) / 2, HEIGHT(c) / 2);
+  /* if (arg->i == 2) // warp cursor to client center
+    XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, WIDTH(c) / 2, HEIGHT(c) / 2); */
 
   if (!getrootptr(&x, &y))
     return;
@@ -2030,17 +2030,6 @@ void resizeclient(Client *c, int x, int y, int w, int h) {
   /* Do nothing if layout is floating */
   if (c->isfloating || c->mon->lt[c->mon->sellt]->arrange == NULL) {
     gapincr = gapoffset = 0;
-  } else {
-    /* Remove border and gap if layout is monocle or only one client */
-    if (c->mon->lt[c->mon->sellt]->arrange == monocle || n == 1) {
-      gapoffset = 0;
-      gapincr = -2 * borderpx;
-      if (onlyclient == 0 || c->mon->lt[c->mon->sellt]->arrange == monocle)
-        wc.border_width = 0;
-    } else {
-      gapoffset = gappx;
-      gapincr = 2 * gappx;
-    }
   }
 
   c->oldx = c->x;
@@ -2062,7 +2051,7 @@ void resizeclient(Client *c, int x, int y, int w, int h) {
 }
 
 void resizemouse(const Arg *arg) {
-  int ocx, ocy, nw, nh;
+  int x, y, ocw, och, nw, nh;
   Client *c;
   Monitor *m;
   XEvent ev;
@@ -2072,13 +2061,13 @@ void resizemouse(const Arg *arg) {
   if (c->isfullscreen) /* no support resizing fullscreen windows by mouse */
     return;
   restack(selmon);
-  ocx = c->x;
-  ocy = c->y;
+  ocw = c->w;
+  och = c->h;
   if (XGrabPointer(dpy, root, False, MOUSEMASK, GrabModeAsync, GrabModeAsync,
                    None, cursor[CurResize]->cursor, CurrentTime) != GrabSuccess)
     return;
-  XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1,
-               c->h + c->bw - 1);
+  if (!getrootptr(&x, &y))
+    return;
   do {
     XMaskEvent(dpy, MOUSEMASK | ExposureMask | SubstructureRedirectMask, &ev);
     switch (ev.type) {
@@ -2088,8 +2077,8 @@ void resizemouse(const Arg *arg) {
       handler[ev.type](&ev);
       break;
     case MotionNotify:
-      nw = MAX(ev.xmotion.x - ocx - 2 * c->bw + 1, 1);
-      nh = MAX(ev.xmotion.y - ocy - 2 * c->bw + 1, 1);
+      nw = MAX(ocw + (ev.xmotion.x - x), 1);
+      nh = MAX(och + (ev.xmotion.y - y), 1);
       if (c->mon->wx + nw >= selmon->wx &&
           c->mon->wx + nw <= selmon->wx + selmon->ww &&
           c->mon->wy + nh >= selmon->wy &&
@@ -2103,8 +2092,6 @@ void resizemouse(const Arg *arg) {
       break;
     }
   } while (ev.type != ButtonRelease);
-  XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1,
-               c->h + c->bw - 1);
   XUngrabPointer(dpy, CurrentTime);
   while (XCheckMaskEvent(dpy, EnterWindowMask, &ev))
     ;
@@ -2637,6 +2624,7 @@ void focusbynum(const Arg *arg) {
   for (; c && i < arg->i; c = nexttiled(c->next), i++)
     ;
   focus(c);
+  restack(selmon);
 }
 
 void toggletag(const Arg *arg) {
