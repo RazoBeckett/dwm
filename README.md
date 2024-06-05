@@ -72,3 +72,22 @@
 
 > [!CAUTION]
 > This Build of DWM been heavily modified; if you wish to apply any patches, it is recommended to do so manually.
+
+## About DWM
+
+[![dwm-logo](dwm.png)](https://dwm.suckless.org/)
+
+[DWM](https://dwm.suckless.org/) is a dynamic window manager for X. It manages windows in tiled, monocle, and floating layouts. All of the layouts can be applied dynamically, optimizing the environment for the application in use and the task performed.
+
+## Features
+
+- **Tiling**: Tiling is the most important feature of dwm.
+- **Dynamic**: Dwm is dynamic, which means that the tags can be added and removed dynamically.
+- **Customizable**: Dwm is customized through editing the source code.
+- **Fast**: Dwm is fast and efficient.
+- **Simple**: Dwm is simple and easy to use.
+- **Stacking**: Dwm supports stacking of windows.
+- **Multi-Tagging**: Dwm supports multiple tagging.
+- **Status Bar**: Dwm has a status bar to display information.
+- **Rules**: Dwm supports rules for managing windows.
+- **Layouts**: Dwm supports multiple layouts.
