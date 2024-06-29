@@ -13,7 +13,7 @@
 - Arch Linux:
 
   ```bash
-  sudo pacman -S --needed base-devel xorg-server xorg-xinit libx11 libxinerama libxft git vim && \
+  sudo pacman -S --needed base-devel xorg-server xorg-xinit libx11 libxinerama libxft imlib2 git && \
   	git clone https://github.com/razobeckett/dwm && \
   	cd dwm && sudo make clean install
   ```
@@ -21,7 +21,7 @@
 - Ubuntu/Debian:
 
   ```bash
-  sudo apt install build-essential xorg libx11-dev libxinerama-dev libxft-dev git vim && \
+  sudo apt install -y build-essential xorg libx11-dev libxinerama-dev libxft-dev libimblib2-dev git && \
     git clone https://github.com/razobeckett/dwm && \
     cd dwm && sudo make clean install
   ```
