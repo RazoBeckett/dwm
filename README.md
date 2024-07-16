@@ -6,7 +6,7 @@
 
 - Application rules are defined in a separate file called `apprules.h`.
 
-## BUILD INSTRUCTIONS
+## Build Instrcutions:
 
 ### compile dependencies:
 
@@ -54,7 +54,7 @@
 ### Keybinds
 
 > [!NOTE]
-> These are just a few basic keybinds to get started; you can always add and modify them in `config.h`.
+> These are just a few basic keybinds to get started; you can always add and modify them in `config.def.h`.
 
 | Keybind              | Function                                  |
 | -------------------- | ----------------------------------------- |
