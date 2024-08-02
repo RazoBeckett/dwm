@@ -42,6 +42,7 @@ install: all
 	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
 	mkdir -p /usr/share/xsessions/
 	test -f /usr/share/xsessions/dwm.desktop || install -Dm644 dwm.desktop /usr/share/xsessions/
+	rm -f ${OBJ}
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
