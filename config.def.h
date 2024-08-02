@@ -1,8 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 /* appearance */
-static const unsigned int borderpx       = 2;   /* border pixel of windows */
-static const unsigned int gappx          = 4;   /* gaps between windows */
-static const unsigned int fgappx         = 18;  /* gaps around only one window*/
+static const unsigned int borderpx       = 1;   /* border pixel of windows */
+static const unsigned int gappx          = 0;   /* gaps between windows */
+static const unsigned int fgappx         = 0;   /* gaps around only one window*/
 static const unsigned int snap           = 32;  /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft  = 0;   /* 0: systray in the right corner, >0: systray on left of status text */
@@ -13,7 +13,8 @@ static const int showsystray  = 1;        /* 0 means no systray */
 static const int showbar      = 1;        /* 0 means no bar */
 static const int topbar       = 1;        /* 0 means bottom bar */
 static const int titlestyle   = 1;        /* 0: left aligned , 1: center aligned */
-static const char *fonts[]    = { "monospace:weight=bold:size=11:antialias=true:hinting=true" };
+static const char *fonts[]    = { "monospace::size=10" };
+static const char dmenufont[] = "monospace:size=10";
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 
 static const char col_gray1[]       = "#222222";
@@ -30,7 +31,7 @@ static const char *colors[][3]      = {
 };
 
 static const char *const autostart[] = {
-	"bash", "-c", "$HOME/.local/bin/launch_dwmblocks", NULL,
+	"bash", "-c", "$HOME/.local/bin/launch_dwmblocks", NULL, /* You can get this script from my dotfiles repository */
 	NULL /* terminate */
 };
 
@@ -73,7 +74,9 @@ static const Layout layouts[] = {
 #include <X11/XF86keysym.h>
 
 /* user commands */
-static const char *dmenucmd[]	= { "dmenu_run", "-m", dmenumon, "-c", "-l", "7", "-fn", "JetBrains Mono Nerd Font:weight=bold:size=12:antialias=true:hinting=true", NULL }; 
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[]	=  { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL }; 
+static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
 
@@ -87,7 +90,8 @@ static const Key keys[] = {
 	{ 0,	XF86XK_MonBrightnessDown,	spawn,		SHCMD("brightnessctl set 5%- && kill -39 $(pidof dwmblocks)") },
 
 	/* modifier                     key        		function        argument */
-	{ MODKEY,			XK_space,		spawn,		{.v = dmenucmd } },
+	{ MODKEY,			XK_p,		spawn,		{.v = dmenucmd } },
+	{ MODKEY|ShiftMask,			XK_Return,		spawn,		{.v = termcmd } },
 	{ MODKEY|ALTKEY,		XK_b,      		togglebar,      {0} },
 	{ ALTKEY|ShiftMask,		XK_h,      		rotatestack,    {.i = +1 } },
 	{ ALTKEY|ShiftMask,		XK_l,      		rotatestack,    {.i = -1 } },
@@ -132,10 +136,6 @@ static const Key keys[] = {
 	{ MODKEY,			XK_6,			focusbynum,	{.i = 5} },
 	{ MODKEY,			XK_7,			focusbynum,	{.i = 6} },
 	{ MODKEY,			XK_8,			focusbynum,	{.i = 7} },
-
-	/* custom keybindings */
-	{ MODKEY,			XK_Return,		spawn,		{.v = (const char*[]){ "st", NULL }} },
-
 };
 
 /* button definitions */
