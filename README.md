@@ -56,14 +56,15 @@
 > [!NOTE]
 > These are just a few basic keybinds to get started; you can always add and modify them in `config.def.h`.
 
-| Keybind              | Function                                  |
-| -------------------- | ----------------------------------------- |
-| Super + Return       | Opens the terminal.                       |
-| Super + Space        | Opens dmenu.                              |
-| ALT + [1..0]         | Switches between tags (workspaces).       |
-| ALT + SHIFT + [1..0] | Moves window between tags (workspaces).   |
-| ALT + SHIFT + L/H    | Moves window right and left respectively. |
-| ALT + Q              | Closes the window.                        |
+
+| Keybind                                                          | Function                                  |
+| ---------------------------------------------------------------- | ----------------------------------------- |
+| <kbd>SUPER</kbd> + <kbd>RETURN</kbd>                             | Opens the terminal.                       |
+| <kbd>SUPER</kbd> + <kbd>SPACE</kbd>                              | Opens dmenu.                              |
+| <kbd>ALT</kbd> + [<kbd>1</kbd>..<kbd>0</kbd>]                    | Switches between tags (workspaces).       |
+| <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + [<kbd>1</kbd>..<kbd>0</kbd>] | Moves window between tags (workspaces).   |
+| <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + <kbd>L</kbd>/<kbd>H</kbd>    | Moves window right and left respectively. |
+| <kbd>ALT</kbd> + <kbd>Q</kbd>                                    | Closes the window.                        |
 
 ### Addition Utilities used with setup:
 
