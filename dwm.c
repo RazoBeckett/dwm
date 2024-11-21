@@ -335,6 +335,7 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 static void autostart_exec(void);
+static void unfloatvisible(const Arg *arg);
 
 /* variables */
 static Systray *systray = NULL;
@@ -3278,6 +3279,19 @@ void zoom(const Arg *arg) {
   if (c == nexttiled(selmon->clients) && !(c = nexttiled(c->next)))
     return;
   pop(c);
+}
+
+void unfloatvisible(const Arg *arg) {
+  Client *c;
+
+  for (c = selmon->clients; c; c = c->next)
+    if (ISVISIBLE(c) && c->isfloating)
+      c->isfloating = c->isfixed;
+
+  if (arg && arg->v)
+    setlayout(arg);
+  else
+    arrange(selmon);
 }
 
 int main(int argc, char *argv[]) {

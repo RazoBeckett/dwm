@@ -136,6 +136,8 @@ static const Key keys[] = {
 	{ MODKEY,			XK_6,			focusbynum,	{.i = 5} },
 	{ MODKEY,			XK_7,			focusbynum,	{.i = 6} },
 	{ MODKEY,			XK_8,			focusbynum,	{.i = 7} },
+	{ MODKEY|ShiftMask,     XK_z, unfloatvisible, {0} },
+	{ MODKEY|ShiftMask,	    XK_t, unfloatvisible, {.v = &layouts[1]} },
 };
 
 /* button definitions */
