@@ -58,7 +58,6 @@
   (MAX(0, MIN((x) + (w), (z)->x + (z)->w) - MAX((x), (z)->x)) *                \
    MAX(0, MIN((y) + (h), (z)->y + (z)->h) - MAX((y), (z)->y)))
 #define ISVISIBLE(C) ((C->tags & C->mon->tagset[C->mon->seltags]))
-#define LENGTH(X) (sizeof X / sizeof X[0])
 #define MOUSEMASK (BUTTONMASK | PointerMotionMask)
 #define WIDTH(X) ((X)->w + 2 * (X)->bw + gappx)
 #define HEIGHT(X) ((X)->h + 2 * (X)->bw + gappx)
