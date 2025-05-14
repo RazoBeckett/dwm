@@ -303,6 +303,7 @@ static void tagmon(const Arg *arg);
 static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
+static void togglefullscr(const Arg *arg);
 static void focusbynum(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
@@ -1675,7 +1676,8 @@ void monocle(Monitor *m) {
   if (n > 0) /* override layout symbol */
     snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
   for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
-    resize(c, m->wx + fgappx, m->wy + fgappx, m->ww - 2 * c->bw - 2 * fgappx, m->wh - 2 * c->bw - 2 * fgappx, 0);
+    resize(c, m->wx + fgappx, m->wy + fgappx, m->ww - 2 * c->bw - 2 * fgappx,
+           m->wh - 2 * c->bw - 2 * fgappx, 0);
 }
 
 void motionnotify(XEvent *e) {
@@ -2612,6 +2614,12 @@ void togglefloating(const Arg *arg) {
     resize(selmon->sel, selmon->sel->x, selmon->sel->y, selmon->sel->w,
            selmon->sel->h, 0);
   arrange(selmon);
+}
+
+void togglefullscr(const Arg *arg) {
+  if (selmon->sel) {
+    setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
+  }
 }
 
 void focusbynum(const Arg *arg) {

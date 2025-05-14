@@ -107,6 +107,7 @@ static const Key keys[] = {
 	{ ALTKEY|ControlMask,		XK_q,			killclient,		{.ui = 1} },  // kill unselect
 	{ ALTKEY|ShiftMask|ControlMask,	XK_q,			killclient,			{.ui = 2} },  // killall
 	{ ALTKEY|ShiftMask,		XK_space,		togglefloating, {0} },
+	{ MODKEY,		XK_f,		togglefullscr, {0} },
 	{ MODKEY|ShiftMask,		XK_t,      		setlayout,      {.v = &layouts[0]} },
 	{ MODKEY|ShiftMask,		XK_f,      		setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,		XK_m,      		setlayout,      {.v = &layouts[2]} },
