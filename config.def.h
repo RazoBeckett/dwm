@@ -15,7 +15,6 @@ static const int topbar       = 1;        /* 0 means bottom bar */
 static const int titlestyle   = 1;        /* 0: left aligned , 1: center aligned */
 static const char *fonts[]    = { "monospace::size=10" };
 static const char dmenufont[] = "monospace:size=10";
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
