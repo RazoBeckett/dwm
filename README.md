@@ -1,6 +1,6 @@
 # DWM (Dynamic Window Manager)
 
-![Preview](assets/preview.png)
+![Preview](assets/preview.webp)
 
 # User Guide:
 
